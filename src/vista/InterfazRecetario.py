@@ -2,7 +2,6 @@ from PyQt5.QtWidgets import QApplication
 from .VistaListaRecetas import VistaListaRecetas
 from .VistaReceta import VistaReceta
 from .VistaListaIngredientes import VistaListaIngredientes
-from .VistaListaRecetas import VistaListaRecetas
 #from .VistaPersonasPreparacion import VistaPersonasPreparacion
 from .VistaPreparacion import VistaPreparacion
 from .VistaListaIngredientesReceta import VistaListaIngredientesReceta
