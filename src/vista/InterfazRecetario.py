@@ -45,6 +45,13 @@ class App_Recetario(QApplication):
         else:
             self.mostrar_ventana_receta(None)
     
+    def eliminar_receta(self, indice):
+        """
+        Esta función permite eliminar una receta
+        """
+        self.logica.eliminar_receta(indice)
+        self.vista_lista_recetas.mostrar_recetas(self.logica.dar_recetas())
+		
     def mostrar_ventana_receta(self, receta):
         """
         Esta función muestra la ventana con la información de una receta
