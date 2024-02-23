@@ -68,7 +68,11 @@ class Logica(FachadaRecetario):
         return ""
 		
     def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
-        ingrediente = Ingrediente(nombre=nombre, unidad_medida=unidad, valor_unidad=int(valor), lugar_compra=sitioCompras, en_uso=False)
+        ingrediente = Ingrediente(nombre=nombre,
+                                  unidad_medida=unidad,
+                                  valor_unidad=int(valor),
+                                  lugar_compra=sitioCompras,
+                                  en_uso=False)
         session.add(ingrediente)
         session.commit()
         return ingrediente.id
