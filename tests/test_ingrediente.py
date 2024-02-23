@@ -59,3 +59,8 @@ class IngredienteTestCase(unittest.TestCase):
         self.logica.crear_ingrediente("Papa", "gramos", "200", "Carulla")
         mensaje = self.logica.validar_crear_editar_ingrediente("Papa", "gramos", "200", "Carulla")
         self.assertEqual(mensaje, "Ya existe un ingrediente con el mismo nombre y unidad de medida")
+
+    # Al crear un ingrediente que pase todas las validaciones, se debe registrar en la base de datos.
+    def test_crear_ingrediente(self):
+        ingrediente_id = self.logica.crear_ingrediente("Papa", "gramos", "200", "Carulla")
+        self.assertTrue(ingrediente_id > 0)
