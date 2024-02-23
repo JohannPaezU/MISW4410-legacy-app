@@ -91,6 +91,16 @@ class FachadaRecetario:
         '''
         raise NotImplementedError("Método no implementado")
 
+    def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
+        ''' Crea un nuevo ingrediente
+        Parámetros:
+            nombre (string): El nombre del ingrediente
+            unidad (string): La unidad de medida del ingrediente (gramos, litros, etc.)
+            valor (int): Es el precio por unidad del ingrediente
+            sitioCompras (string): Es el lugar donde se compra el ingrediente
+        '''
+        raise NotImplementedError("Método no implementado")
+
 
     def editar_ingrediente(self, id_ingrediente, nombre, unidad, valor, sitioCompras):
         ''' Edita un ingrediente

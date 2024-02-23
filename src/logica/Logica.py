@@ -35,6 +35,9 @@ class Logica(FachadaRecetario):
 
     def validar_crear_editar_ingrediente(self, nombre, unidad, valor, sitioCompra):
         return None
+		
+    def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
+        return None
 
     def editar_ingrediente(self, id_ingrediente, nombre, unidad, valor, sitioCompras):
         return None
