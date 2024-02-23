@@ -25,7 +25,11 @@ class IngredienteTestCase(unittest.TestCase):
         self.assertEqual(mensaje, "La unidad de medida del ingrediente no puede ser vacía")
 
     # Al crear un ingrediente con el campo "unidad" mayor a 20 caracteres, debe lanzar un mensaje de error.
-    def test_validar_crear_editar_ingrediente_campo_unidad_con_longitud_invalida(self):
+    def test_validar_crear_editar_ingrediente_campo_nombre_con_longitud_invalida(self):
         mensaje = self.logica.validar_crear_editar_ingrediente("Papa", "Unidad de medida invalida, cuenta con mas de 20 caracteres", "200", "Carulla")
         self.assertEqual(mensaje, "La unidad de medida del ingrediente no puede tener más de 20 caracteres")
-
+    
+    # Al crear un ingrediente con el campo "Valor por unidad" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_ingrediente_campo_valor_por_unidad_vacio(self):
+        mensaje = self.logica.validar_crear_editar_ingrediente("Papa", "gramos", "", "Carulla")
+        self.assertEqual(mensaje, "El valor del ingrediente no puede ser vacío")
