@@ -58,6 +58,9 @@ class Logica(FachadaRecetario):
         if sitioCompra == "":
             return "El sitio de compra del ingrediente no puede ser vacío"
 
+        if len(sitioCompra) > 100:
+            return "El sitio de compra del ingrediente no puede tener más de 100 caracteres"
+
         return None
 		
     def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
