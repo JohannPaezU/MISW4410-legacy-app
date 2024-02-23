@@ -49,7 +49,13 @@ class IngredienteTestCase(unittest.TestCase):
         mensaje = self.logica.validar_crear_editar_ingrediente("Papa", "gramos", "200", "")
         self.assertEqual(mensaje, "El sitio de compra del ingrediente no puede ser vacío")
     
-    #Al crear un ingrediente con el campo "Sitio de compra" mayor a 100 caracteres, debe lanzar un mensaje de error.
+    # Al crear un ingrediente con el campo "Sitio de compra" mayor a 100 caracteres, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_sitio_compra_con_longitud_invalida(self):
         mensaje = self.logica.validar_crear_editar_ingrediente("Papa", "gramos", "200", "Sitio de compra invalido, este sitio de compra cuenta con mas de 100 caracteres, por lo tanto debe ser rechazado")
         self.assertEqual(mensaje, "El sitio de compra del ingrediente no puede tener más de 100 caracteres")
+
+    # Al crear un ingrediente con el mismo nombre y unidad de medida de uno ya existente, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_ingrediente_ya_existente(self):
+        self.logica.crear_ingrediente("Papa", "gramos", "200", "Carulla")
+        mensaje = self.logica.validar_crear_editar_ingrediente("Papa", "gramos", "200", "Carulla")
+        self.assertEqual(mensaje, "Ya existe un ingrediente con el mismo nombre y unidad de medida")
