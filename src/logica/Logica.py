@@ -49,6 +49,9 @@ class Logica(FachadaRecetario):
         if valor == "":
             return "El valor del ingrediente no puede ser vacío"
 
+        if int(valor) < 0:
+            return "El valor del ingrediente no puede ser negativo"
+
         return None
 		
     def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
