@@ -33,3 +33,9 @@ class IngredienteTestCase(unittest.TestCase):
     def test_validar_crear_editar_ingrediente_campo_valor_por_unidad_vacio(self):
         mensaje = self.logica.validar_crear_editar_ingrediente("Papa", "gramos", "", "Carulla")
         self.assertEqual(mensaje, "El valor del ingrediente no puede ser vacío")
+
+    # Al crear un ingrediente con el campo "Valor por unidad" menor a cero, debe lanzar un mensaje de error
+    def test_validar_crear_editar_ingrediente_campo_valor_por_unidad_negativo(self):
+        mensaje = self.logica.validar_crear_editar_ingrediente("Papa", "gramos", "-200", "Carulla")
+        self.assertEqual(mensaje, "El valor del ingrediente no puede ser negativo")
+
