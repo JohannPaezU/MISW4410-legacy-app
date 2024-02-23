@@ -34,6 +34,9 @@ class Logica(FachadaRecetario):
         return None
 
     def validar_crear_editar_ingrediente(self, nombre, unidad, valor, sitioCompra):
+        if nombre == "":
+            return "El nombre del ingrediente no puede ser vacío"
+
         return None
 		
     def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
