@@ -1,5 +1,5 @@
 from src.logica.FachadaRecetario import FachadaRecetario
-from src.modelo.declarative_base import engine, Base
+from src.modelo.declarative_base import engine, Base, session
 from src.modelo.ingrediente import Ingrediente
 from src.modelo.receta import Receta
 from src.modelo.receta_ingrediente import RecetaIngrediente
@@ -61,10 +61,17 @@ class Logica(FachadaRecetario):
         if len(sitioCompra) > 100:
             return "El sitio de compra del ingrediente no puede tener más de 100 caracteres"
 
-        return None
+        busqueda = session.query(Ingrediente).filter(Ingrediente.nombre == nombre and Ingrediente.unidad_medida == unidad).all()
+        if len(busqueda) > 0:
+            return "Ya existe un ingrediente con el mismo nombre y unidad de medida"
+
+        return ""
 		
     def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
-        return None
+        ingrediente = Ingrediente(nombre=nombre, unidad_medida=unidad, valor_unidad=int(valor), lugar_compra=sitioCompras, en_uso=False)
+        session.add(ingrediente)
+        session.commit()
+        return ingrediente.id
 
     def editar_ingrediente(self, id_ingrediente, nombre, unidad, valor, sitioCompras):
         return None
