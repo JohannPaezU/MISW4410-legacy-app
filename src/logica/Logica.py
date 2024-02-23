@@ -37,6 +37,9 @@ class Logica(FachadaRecetario):
         if nombre == "":
             return "El nombre del ingrediente no puede ser vacío"
 
+        if len(nombre) > 50:
+            return "El nombre del ingrediente no puede tener más de 50 caracteres"
+
         return None
 		
     def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
