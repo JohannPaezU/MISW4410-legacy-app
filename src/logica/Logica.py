@@ -43,6 +43,9 @@ class Logica(FachadaRecetario):
         if unidad == "":
             return "La unidad de medida del ingrediente no puede ser vacía"
 
+        if len(unidad) > 20:
+            return "La unidad de medida del ingrediente no puede tener más de 20 caracteres"
+
         return None
 		
     def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
