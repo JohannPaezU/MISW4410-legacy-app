@@ -8,8 +8,8 @@ class Receta(Base):
 
     id = Column(Integer, primary_key=True)
     nombre = Column(String)
-    numero_personas = Column(Integer)
-    calorias_porcion = Column(Integer)
-    instrucciones = Column(String)
-    tiempo_preparacion = Column(String)
+    personas = Column(Integer)
+    calorias = Column(Integer)
+    preparacion = Column(String)
+    tiempo = Column(String)
     ingredientes = relationship('Ingrediente', secondary='receta_ingrediente')

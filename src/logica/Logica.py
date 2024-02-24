@@ -4,8 +4,9 @@ from src.modelo.ingrediente import Ingrediente
 from src.modelo.receta import Receta
 from src.modelo.receta_ingrediente import RecetaIngrediente
 
+
 class Logica(FachadaRecetario):
-    
+
     def __init__(self):
         Base.metadata.create_all(engine)
 
@@ -18,12 +19,12 @@ class Logica(FachadaRecetario):
     def validar_crear_editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
         return None
 
-    def crear_receta(self,receta, tiempo, personas, calorias, preparacion):
+    def crear_receta(self, receta, tiempo, personas, calorias, preparacion):
         return None
 
     def editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
         return None
-    
+
     def eliminar_receta(self, id_receta):
         return None
 
@@ -61,17 +62,18 @@ class Logica(FachadaRecetario):
         if len(sitioCompra) > 100:
             return "El sitio de compra del ingrediente no puede tener más de 100 caracteres"
 
-        busqueda = session.query(Ingrediente).filter(Ingrediente.nombre == nombre).filter(Ingrediente.unidad_medida == unidad).all()
+        busqueda = session.query(Ingrediente).filter(Ingrediente.nombre == nombre)\
+            .filter(Ingrediente.unidad == unidad).all()
         if len(busqueda) > 0:
             return "Ya existe un ingrediente con el mismo nombre y unidad de medida"
 
         return ""
-		
-    def crear_ingrediente(self, nombre, unidad, valor, sitioCompras):
+
+    def crear_ingrediente(self, nombre, unidad, valor, sitioCompra):
         ingrediente = Ingrediente(nombre=nombre,
-                                  unidad_medida=unidad,
-                                  valor_unidad=int(valor),
-                                  lugar_compra=sitioCompras,
+                                  unidad=unidad,
+                                  valor=int(valor),
+                                  sitioCompra=sitioCompra,
                                   en_uso=False)
         session.add(ingrediente)
         session.commit()
@@ -92,11 +94,11 @@ class Logica(FachadaRecetario):
     def editar_ingrediente_receta(self, id_ingrediente_receta, receta, ingrediente, cantidad):
         return None
 
-    def validar_crear_editar_ingReceta(self,receta, ingrediente, cantidad):
+    def validar_crear_editar_ingReceta(self, receta, ingrediente, cantidad):
         return None
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):
         return None
 
-    def dar_preparacion(self, id_receta,cantidad_personas):
+    def dar_preparacion(self, id_receta, cantidad_personas):
         return None
