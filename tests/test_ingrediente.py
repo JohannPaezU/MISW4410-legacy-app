@@ -77,3 +77,10 @@ class IngredienteTestCase(unittest.TestCase):
     def test_listar_ingredientes_lista_vacia(self):
         lista_ingredientes = self.logica.dar_ingredientes()
         self.assertEqual(len(lista_ingredientes), 0)
+
+    # Validar que si hay ingredientes registrados en BD, se devuelva una lista con los ingredientes. 
+    def test_listar_ingredientes_lista_llena(self):
+        consulta1 = self.logica.dar_ingredientes()
+        self.logica.crear_ingrediente("Papa", "gramos", "200", "Carulla")
+        consulta2 = self.logica.dar_ingredientes()
+        self.assertGreater(len(consulta2), len(consulta1))
