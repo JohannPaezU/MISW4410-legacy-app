@@ -50,6 +50,11 @@ class Logica(FachadaRecetario):
         if valor == "":
             return "El valor del ingrediente no puede ser vacío"
 
+        try:
+            int(valor)
+        except ValueError:
+            return "El valor del ingrediente no puede ser un texto"
+
         if int(valor) < 0:
             return "El valor del ingrediente no puede ser negativo"
 
