@@ -11,7 +11,7 @@ class Logica(FachadaRecetario):
         Base.metadata.create_all(engine)
 
     def dar_recetas(self):
-        return list()
+        return [elem.__dict__ for elem in session.query(Receta).all()]
 
     def dar_receta(self, id_receta):
         return None
