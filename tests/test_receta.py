@@ -33,3 +33,17 @@ class RecetaTestCase(unittest.TestCase):
         session.commit()
         consulta2 = self.logica.dar_recetas()
         self.assertGreater(len(consulta2), len(consulta1))
+
+    # Validar que si hay recetas registradas en BD, se devuelva una lista con las recetas.
+    def test_listar_recetas_alfabeticamente(self):
+        receta1 = Receta(nombre="Salchipapa", personas=4, calorias=500, preparacion="Cortar papa y salchicha",
+                        tiempo="00:10:10")
+        receta2 = Receta(nombre="Arroz con pollo", personas=4, calorias=500, preparacion="Hervir el arroz",
+                        tiempo="00:10:10")
+        recetas = [receta1, receta2]
+        session.add_all(recetas)
+        session.commit()
+        recetas_db = self.logica.dar_recetas()
+        self.assertEqual(recetas_db[0]["nombre"], receta2.nombre)
+        self.assertEqual(recetas_db[1]["nombre"], receta1.nombre)
+
