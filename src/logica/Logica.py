@@ -28,7 +28,7 @@ class Logica(FachadaRecetario):
         return None
 
     def dar_ingredientes(self):
-        return None
+        return list()
 
     def dar_ingrediente(self, id_ingrediente):
         return None
