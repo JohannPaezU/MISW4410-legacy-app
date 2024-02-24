@@ -11,7 +11,7 @@ class Logica(FachadaRecetario):
         Base.metadata.create_all(engine)
 
     def dar_recetas(self):
-        return None
+        return list()
 
     def dar_receta(self, id_receta):
         return None
