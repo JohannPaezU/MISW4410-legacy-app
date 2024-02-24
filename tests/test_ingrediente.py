@@ -1,4 +1,6 @@
 from src.logica.Logica import Logica
+from src.modelo.ingrediente import Ingrediente
+from src.modelo.declarative_base import session
 import unittest
 
 class IngredienteTestCase(unittest.TestCase):
@@ -7,7 +9,13 @@ class IngredienteTestCase(unittest.TestCase):
         self.logica = Logica()
         
     def tearDown(self):
-        self.logica = None
+        busqueda = session.query(Ingrediente).all()
+
+        for ingrediente in busqueda:
+            session.delete(ingrediente)
+
+        session.commit()
+        session.close()
     
     # Al crear un ingrediente con el campo "nombre" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_nombre_vacio(self):
@@ -64,3 +72,8 @@ class IngredienteTestCase(unittest.TestCase):
     def test_crear_ingrediente(self):
         ingrediente_id = self.logica.crear_ingrediente("Papa", "gramos", "200", "Carulla")
         self.assertTrue(ingrediente_id > 0)
+
+    # Validar que si no hay ingredientes registrados en BD, se devuelva una lista vacia.
+    def test_listar_ingredientes_lista_vacia(self):
+        lista_ingredientes = self.logica.dar_ingredientes()
+        self.assertEqual(len(lista_ingredientes), 0)
