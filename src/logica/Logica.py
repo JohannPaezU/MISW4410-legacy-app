@@ -61,7 +61,7 @@ class Logica(FachadaRecetario):
         if len(sitioCompra) > 100:
             return "El sitio de compra del ingrediente no puede tener más de 100 caracteres"
 
-        busqueda = session.query(Ingrediente).filter(Ingrediente.nombre == nombre and Ingrediente.unidad_medida == unidad).all()
+        busqueda = session.query(Ingrediente).filter(Ingrediente.nombre == nombre).filter(Ingrediente.unidad_medida == unidad).all()
         if len(busqueda) > 0:
             return "Ya existe un ingrediente con el mismo nombre y unidad de medida"
 

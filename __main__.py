@@ -12,6 +12,6 @@ if __name__ == '__main__':
     logicaMock = LogicaMock()
     logica = Logica()
 
-    app = App_Recetario(sys.argv, logicaMock)
-    # app = App_Recetario(sys.argv, logica)
+    #app = App_Recetario(sys.argv, logicaMock)
+    app = App_Recetario(sys.argv, logica)
     sys.exit(app.exec_())
