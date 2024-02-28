@@ -140,3 +140,17 @@ class RecetaTestCase(unittest.TestCase):
         mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
                                                           personas="4", calorias="500", preparacion="Hervir el arroz")
         self.assertEqual(mensaje, "Ya existe una receta con el mismo nombre")
+
+    # Al crear una receta que pase todas las validaciones, se debe registrar en la base de datos.
+    def test_crear_receta(self):
+        receta = "Arroz con pollo"
+        tiempo = "00:10:10"
+        personas = "4"
+        calorias = "500"
+        preparacion = "Hervir el arroz"
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta=receta, tiempo=tiempo,
+                                                          personas=personas, calorias=calorias, preparacion=preparacion)
+        receta_id = self.logica.crear_receta(receta=receta, tiempo=tiempo, personas=personas, calorias=calorias,
+                                             preparacion=preparacion)
+        self.assertEqual(mensaje, "")
+        self.assertTrue(receta_id > 0)
