@@ -40,6 +40,10 @@ class Logica(FachadaRecetario):
             return "El número de personas no puede ser cero"
         if calorias == "":
             return "El número de calorías no puede ser vacío"
+        try:
+            int(calorias)
+        except ValueError:
+            return "El número de calorías no puede ser un texto"
         if int(calorias) < 0:
             return "El número de calorías no puede ser negativo"
         if int(calorias) == 0:
