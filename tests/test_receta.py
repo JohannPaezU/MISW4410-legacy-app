@@ -70,3 +70,9 @@ class RecetaTestCase(unittest.TestCase):
         mensaje = self.logica.validar_crear_editar_receta(id_receta=0, receta="Arroz con pollo", tiempo="00:00:00",
                                                           personas=4, calorias=500, preparacion="Hervir el arroz")
         self.assertEqual(mensaje, "El tiempo de preparación no puede ser 00:00:00")
+
+    # Al crear una receta con el campo "Número personas" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_personas_vacio(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="", calorias="500", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de personas no puede ser vacío")
