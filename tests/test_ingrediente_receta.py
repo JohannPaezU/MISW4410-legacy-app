@@ -18,9 +18,13 @@ class IngredienteRecetaTestCase(unittest.TestCase):
 
         for receta_ingrediente in busqueda0:
             session.delete(receta_ingrediente)
+        
+        session.commit()
 
         for ingrediente in busqueda1:
             session.delete(ingrediente)
+
+        session.commit()
 
         for receta in busqueda2:
             session.delete(receta)
