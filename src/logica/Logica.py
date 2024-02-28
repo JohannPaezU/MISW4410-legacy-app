@@ -30,6 +30,10 @@ class Logica(FachadaRecetario):
             return "El tiempo de preparación no puede ser 00:00:00"
         if personas == "":
             return "El número de personas no puede ser vacío"
+        try:
+            int(personas)
+        except ValueError:
+            return "El número de personas no puede ser un texto"
         if int(personas) < 0:
             return "El número de personas no puede ser negativo"
         if int(personas) == 0:
