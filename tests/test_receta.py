@@ -64,3 +64,9 @@ class RecetaTestCase(unittest.TestCase):
         mensaje = self.logica.validar_crear_editar_receta(id_receta=0, receta="Arroz con pollo", tiempo="10:10",
                                                           personas=4, calorias=500, preparacion="Hervir el arroz")
         self.assertEqual(mensaje, "El tiempo de preparación no tiene el formato correcto, debe ser 'hh:mm:ss'")
+
+    # Al crear una receta con el campo "Tiempo preparación" igual a cero "00:00:00", debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_tiempo_cero(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=0, receta="Arroz con pollo", tiempo="00:00:00",
+                                                          personas=4, calorias=500, preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El tiempo de preparación no puede ser 00:00:00")
