@@ -19,6 +19,8 @@ class Logica(FachadaRecetario):
     def validar_crear_editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
         if receta == "":
             return "El nombre de la receta no puede ser vacío"
+        if tiempo == "":
+            return "El tiempo de preparación no puede ser vacío"
         return None
 
     def crear_receta(self, receta, tiempo, personas, calorias, preparacion):
