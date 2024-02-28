@@ -32,6 +32,8 @@ class Logica(FachadaRecetario):
             return "El número de personas no puede ser vacío"
         if int(personas) < 0:
             return "El número de personas no puede ser negativo"
+        if int(personas) == 0:
+            return "El número de personas no puede ser cero"
         return None
 
     def crear_receta(self, receta, tiempo, personas, calorias, preparacion):
