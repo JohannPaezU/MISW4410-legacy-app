@@ -91,7 +91,7 @@ class Logica(FachadaRecetario):
         return None
 
     def dar_ingredientes_receta(self, id_receta):
-        return None
+        return list()
 
     def agregar_ingrediente_receta(self, receta, ingrediente, cantidad):
         return None
