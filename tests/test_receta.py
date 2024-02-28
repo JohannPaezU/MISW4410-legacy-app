@@ -130,3 +130,13 @@ class RecetaTestCase(unittest.TestCase):
         mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
                                                           personas="4", calorias="500", preparacion="X" * 501)
         self.assertEqual(mensaje, "La preparación de la receta no puede tener más de 500 caracteres")
+
+    # Al crear una receta con el mismo nombre de una ya existente, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_ya_existente(self):
+        receta = Receta(nombre="Arroz con pollo", personas=4, calorias=500, preparacion="Hervir el arroz",
+                        tiempo="00:10:10")
+        session.add(receta)
+        session.commit()
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="4", calorias="500", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "Ya existe una receta con el mismo nombre")
