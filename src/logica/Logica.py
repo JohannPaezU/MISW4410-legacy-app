@@ -28,6 +28,8 @@ class Logica(FachadaRecetario):
         horas, minutos, segundos = map(int, tiempo.split(':'))
         if horas == 0 and minutos == 0 and segundos == 0:
             return "El tiempo de preparación no puede ser 00:00:00"
+        if personas == "":
+            return "El número de personas no puede ser vacío"
         return None
 
     def crear_receta(self, receta, tiempo, personas, calorias, preparacion):
