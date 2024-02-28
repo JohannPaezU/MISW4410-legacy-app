@@ -47,3 +47,110 @@ class RecetaTestCase(unittest.TestCase):
         self.assertEqual(recetas_db[0]["nombre"], receta2.nombre)
         self.assertEqual(recetas_db[1]["nombre"], receta1.nombre)
 
+    # Al crear una receta con el campo "Receta" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_receta_vacio(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=0, receta="", tiempo="00:10:10",
+                                                          personas=4, calorias=500, preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El nombre de la receta no puede ser vacío")
+
+    # Al crear una receta con el campo "Tiempo preparación" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_tiempo_vacio(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=0, receta="Arroz con pollo", tiempo="",
+                                                          personas=4, calorias=500, preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El tiempo de preparación no puede ser vacío")
+
+    # Al crear una receta con el campo "Tiempo preparación" sin formato "hh:mm:ss", debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_tiempo_invalido(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=0, receta="Arroz con pollo", tiempo="10:10",
+                                                          personas=4, calorias=500, preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El tiempo de preparación no tiene el formato correcto, debe ser 'hh:mm:ss'")
+
+    # Al crear una receta con el campo "Tiempo preparación" igual a cero "00:00:00", debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_tiempo_cero(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=0, receta="Arroz con pollo", tiempo="00:00:00",
+                                                          personas=4, calorias=500, preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El tiempo de preparación no puede ser 00:00:00")
+
+    # Al crear una receta con el campo "Número personas" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_personas_vacio(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="", calorias="500", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de personas no puede ser vacío")
+
+    # Al crear una receta con el campo "Número personas" menor a cero, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_personas_negativo(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="-4", calorias="500", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de personas no puede ser negativo")
+
+    # Al crear una receta con el campo "Número personas" igual a cero, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_personas_cero(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="0", calorias="500", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de personas no puede ser cero")
+
+    # Al crear una receta con el campo "Número personas" como texto, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_personas_texto(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="Texto", calorias="500", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de personas no puede ser un texto")
+
+    # Al crear una receta con el campo "Calorias por porción" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_calorias_vacio(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="4", calorias="", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de calorías no puede ser vacío")
+
+    # Al crear una receta con el campo "Calorias por porción" menor a cero, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_calorias_negativo(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="4", calorias="-500", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de calorías no puede ser negativo")
+
+    # Al crear una receta con el campo "Calorias por porción" igual a cero, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_calorias_cero(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="4", calorias="0", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de calorías no puede ser cero")
+
+    # Al crear una receta con el campo "Calorias por porción" como texto, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_calorias_texto(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="4", calorias="Texto", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de calorías no puede ser un texto")
+
+    # Al crear una receta con el campo "Preparación" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_preparacion_vacio(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="4", calorias="500", preparacion="")
+        self.assertEqual(mensaje, "La preparación de la receta no puede ser vacía")
+
+    # Al crear una receta con el campo "Preparación" mayor a 500 caracteres, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_preparacion_con_longitud_invalida(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="4", calorias="500", preparacion="X" * 501)
+        self.assertEqual(mensaje, "La preparación de la receta no puede tener más de 500 caracteres")
+
+    # Al crear una receta con el mismo nombre de una ya existente, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_ya_existente(self):
+        receta = Receta(nombre="Arroz con pollo", personas=4, calorias=500, preparacion="Hervir el arroz",
+                        tiempo="00:10:10")
+        session.add(receta)
+        session.commit()
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="4", calorias="500", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "Ya existe una receta con el mismo nombre")
+
+    # Al crear una receta que pase todas las validaciones, se debe registrar en la base de datos.
+    def test_crear_receta(self):
+        receta = "Arroz con pollo"
+        tiempo = "00:10:10"
+        personas = "4"
+        calorias = "500"
+        preparacion = "Hervir el arroz"
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta=receta, tiempo=tiempo,
+                                                          personas=personas, calorias=calorias, preparacion=preparacion)
+        receta_id = self.logica.crear_receta(receta=receta, tiempo=tiempo, personas=personas, calorias=calorias,
+                                             preparacion=preparacion)
+        self.assertEqual(mensaje, "")
+        self.assertTrue(receta_id > 0)

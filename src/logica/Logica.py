@@ -3,6 +3,7 @@ from src.modelo.declarative_base import engine, Base, session
 from src.modelo.ingrediente import Ingrediente
 from src.modelo.receta import Receta
 from src.modelo.receta_ingrediente import RecetaIngrediente
+import re
 
 
 class Logica(FachadaRecetario):
@@ -17,10 +18,56 @@ class Logica(FachadaRecetario):
         return None
 
     def validar_crear_editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
-        return None
+        if receta == "":
+            return "El nombre de la receta no puede ser vacío"
+        if tiempo == "":
+            return "El tiempo de preparación no puede ser vacío"
+        patron = r'^([0-9]{2}):([0-9]{2}):([0-9]{2})$'
+        if not re.match(patron, tiempo):
+            return "El tiempo de preparación no tiene el formato correcto, debe ser 'hh:mm:ss'"
+        horas, minutos, segundos = map(int, tiempo.split(':'))
+        if horas == 0 and minutos == 0 and segundos == 0:
+            return "El tiempo de preparación no puede ser 00:00:00"
+        if personas == "":
+            return "El número de personas no puede ser vacío"
+        try:
+            int(personas)
+        except ValueError:
+            return "El número de personas no puede ser un texto"
+        if int(personas) < 0:
+            return "El número de personas no puede ser negativo"
+        if int(personas) == 0:
+            return "El número de personas no puede ser cero"
+        if calorias == "":
+            return "El número de calorías no puede ser vacío"
+        try:
+            int(calorias)
+        except ValueError:
+            return "El número de calorías no puede ser un texto"
+        if int(calorias) < 0:
+            return "El número de calorías no puede ser negativo"
+        if int(calorias) == 0:
+            return "El número de calorías no puede ser cero"
+        if preparacion == "":
+            return "La preparación de la receta no puede ser vacía"
+        if len(preparacion) > 500:
+            return "La preparación de la receta no puede tener más de 500 caracteres"
+        busqueda = session.query(Receta).filter(Receta.nombre == receta).all()
+        if len(busqueda) > 0:
+            return "Ya existe una receta con el mismo nombre"
+
+        return ""
 
     def crear_receta(self, receta, tiempo, personas, calorias, preparacion):
-        return None
+        receta = Receta(nombre=receta,
+                        tiempo=tiempo,
+                        personas=personas,
+                        calorias=calorias,
+                        preparacion=preparacion)
+        session.add(receta)
+        session.commit()
+
+        return receta.id
 
     def editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
         return None
