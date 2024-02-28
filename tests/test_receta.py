@@ -47,3 +47,8 @@ class RecetaTestCase(unittest.TestCase):
         self.assertEqual(recetas_db[0]["nombre"], receta2.nombre)
         self.assertEqual(recetas_db[1]["nombre"], receta1.nombre)
 
+    # Al crear una receta con el campo "Receta" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_receta_vacio(self):
+        mensaje = self.logica.validar_crear_editar_receta(0, "", "00:10:10", 4, 500, "Hervir el arroz")
+        self.assertEqual(mensaje, "El nombre de la receta no puede ser vacío")
+
