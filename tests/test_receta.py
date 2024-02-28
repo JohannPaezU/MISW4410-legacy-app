@@ -112,3 +112,9 @@ class RecetaTestCase(unittest.TestCase):
         mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
                                                           personas="4", calorias="0", preparacion="Hervir el arroz")
         self.assertEqual(mensaje, "El número de calorías no puede ser cero")
+
+    # Al crear una receta con el campo "Calorias por porción" como texto, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_calorias_texto(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", receta="Arroz con pollo", tiempo="00:10:10",
+                                                          personas="4", calorias="Texto", preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El número de calorías no puede ser un texto")
