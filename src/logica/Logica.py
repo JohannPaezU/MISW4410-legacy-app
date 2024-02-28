@@ -50,6 +50,8 @@ class Logica(FachadaRecetario):
             return "El número de calorías no puede ser cero"
         if preparacion == "":
             return "La preparación de la receta no puede ser vacía"
+        if len(preparacion) > 500:
+            return "La preparación de la receta no puede tener más de 500 caracteres"
         return None
 
     def crear_receta(self, receta, tiempo, personas, calorias, preparacion):
