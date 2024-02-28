@@ -56,10 +56,18 @@ class Logica(FachadaRecetario):
         if len(busqueda) > 0:
             return "Ya existe una receta con el mismo nombre"
 
-        return None
+        return ""
 
     def crear_receta(self, receta, tiempo, personas, calorias, preparacion):
-        return None
+        receta = Receta(nombre=receta,
+                        tiempo=tiempo,
+                        personas=personas,
+                        calorias=calorias,
+                        preparacion=preparacion)
+        session.add(receta)
+        session.commit()
+
+        return receta.id
 
     def editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
         return None
