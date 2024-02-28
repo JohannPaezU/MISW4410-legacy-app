@@ -3,6 +3,7 @@ from src.modelo.declarative_base import engine, Base, session
 from src.modelo.ingrediente import Ingrediente
 from src.modelo.receta import Receta
 from src.modelo.receta_ingrediente import RecetaIngrediente
+import re
 
 
 class Logica(FachadaRecetario):
@@ -21,6 +22,9 @@ class Logica(FachadaRecetario):
             return "El nombre de la receta no puede ser vacío"
         if tiempo == "":
             return "El tiempo de preparación no puede ser vacío"
+        patron = r'^([0-9]{2}):([0-9]{2}):([0-9]{2})$'
+        if not re.match(patron, tiempo):
+            return "El tiempo de preparación no tiene el formato correcto, debe ser 'hh:mm:ss'"
         return None
 
     def crear_receta(self, receta, tiempo, personas, calorias, preparacion):
