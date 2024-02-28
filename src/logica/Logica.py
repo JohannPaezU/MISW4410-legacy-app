@@ -91,7 +91,9 @@ class Logica(FachadaRecetario):
         return None
 
     def dar_ingredientes_receta(self, id_receta):
-        return None
+        return [elem.__dict__ for elem in session.query(RecetaIngrediente)
+                                                 .filter(RecetaIngrediente.receta_id == id_receta)
+                                                 .all()]
 
     def agregar_ingrediente_receta(self, receta, ingrediente, cantidad):
         return None
