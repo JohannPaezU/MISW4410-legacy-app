@@ -161,6 +161,8 @@ class Logica(FachadaRecetario):
             return "El campo cantidad no puede ser negativo"
         if int(cantidad) == 0:
             return "El campo cantidad no puede ser cero"
+        if receta is None:
+            return "El campo receta no puede ser vacío"
         return None
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):
