@@ -11,6 +11,20 @@ class IngredienteRecetaTestCase(unittest.TestCase):
     def setUp(self):
         self.logica = Logica()
 
+        receta = Receta(nombre="Arroz con pollo",
+                        personas=4, calorias=500,
+                        preparacion="Hervir el arroz",
+                        tiempo="00:10:10")
+        session.add(receta)
+
+        ingrediente = Ingrediente(nombre="Papa",
+                            unidad="gramos",
+                            valor= 200,
+                            sitioCompra="Carulla",
+                            en_uso=False)
+        session.add(ingrediente)
+
+
     def tearDown(self):
         busqueda0 = session.query(RecetaIngrediente).all()
         busqueda1 = session.query(Ingrediente).all()
@@ -39,14 +53,8 @@ class IngredienteRecetaTestCase(unittest.TestCase):
 
     # Validar que si hay ingredientes asociados a la receta, se devuelva una lista con los ingredientes.
     def test_listar_ingredientes_receta_lista_llena(self):
-        receta = Receta(nombre="Arroz con pollo",
-                        personas=4, calorias=500,
-                        preparacion="Hervir el arroz",
-                        tiempo="00:10:10")
-        session.add(receta)
-        ingrediente_id = self.logica.crear_ingrediente("Papa", "gramos", "200", "Carulla")
         ingrediente_receta = RecetaIngrediente(receta_id=1,
-                                               ingrediente_id=ingrediente_id,
+                                               ingrediente_id=1,
                                                cantidad_ingredientes=5)
         session.add(ingrediente_receta)
         lista_ingredientes = self.logica.dar_ingredientes_receta(1)
