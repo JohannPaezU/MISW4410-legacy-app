@@ -15,7 +15,7 @@ class Logica(FachadaRecetario):
         return [elem.__dict__ for elem in session.query(Receta).order_by(Receta.nombre.asc()).all()]
 
     def dar_receta(self, id_receta):
-        return None
+        return session.query(Receta).get(id_receta).__dict__
 
     def validar_crear_editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
         if receta == "":

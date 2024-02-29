@@ -59,3 +59,8 @@ class IngredienteRecetaTestCase(unittest.TestCase):
         session.add(ingrediente_receta)
         lista_ingredientes = self.logica.dar_ingredientes_receta(1)
         self.assertTrue(len(lista_ingredientes) > 0)
+
+    # Al agregar un ingrediente a la receta con el campo "Ingrediente" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_ingrediente_receta_campo_ingrediente_vacio(self):
+        mensaje = self.logica.validar_crear_editar_ingReceta(receta=None, ingrediente=None, cantidad="5")
+        self.assertEqual(mensaje, "El campo ingrediente no puede ser vacío")
