@@ -11,18 +11,18 @@ class IngredienteRecetaTestCase(unittest.TestCase):
     def setUp(self):
         self.logica = Logica()
 
-        receta = Receta(nombre="Arroz con pollo",
+        self.receta = Receta(nombre="Arroz con pollo",
                         personas=4, calorias=500,
                         preparacion="Hervir el arroz",
                         tiempo="00:10:10")
-        session.add(receta)
+        session.add(self.receta)
 
-        ingrediente = Ingrediente(nombre="Papa",
+        self.ingrediente = Ingrediente(nombre="Papa",
                             unidad="gramos",
                             valor= 200,
                             sitioCompra="Carulla",
                             en_uso=False)
-        session.add(ingrediente)
+        session.add(self.ingrediente)
 
 
     def tearDown(self):
@@ -64,3 +64,8 @@ class IngredienteRecetaTestCase(unittest.TestCase):
     def test_validar_crear_ingrediente_receta_campo_ingrediente_vacio(self):
         mensaje = self.logica.validar_crear_editar_ingReceta(receta=None, ingrediente=None, cantidad="5")
         self.assertEqual(mensaje, "El campo ingrediente no puede ser vacío")
+
+    # Al agregar un ingrediente a la receta con el campo "Cantidad" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_ingrediente_receta_campo_cantidad_vacio(self):
+        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente, cantidad="")
+        self.assertEqual(mensaje, "El campo cantidad no puede ser vacío")
