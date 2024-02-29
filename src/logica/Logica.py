@@ -149,6 +149,8 @@ class Logica(FachadaRecetario):
         return None
 
     def validar_crear_editar_ingReceta(self, receta, ingrediente, cantidad):
+        if ingrediente is None:
+            return "El campo ingrediente no puede ser vacío"
         return None
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):
