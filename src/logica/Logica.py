@@ -143,7 +143,12 @@ class Logica(FachadaRecetario):
                                                  .all()]
 
     def agregar_ingrediente_receta(self, receta, ingrediente, cantidad):
-        return None
+        receta_ingrediente = RecetaIngrediente(receta_id=receta.id,
+                                               ingrediente_id=ingrediente.id,
+                                               cantidad_ingredientes=cantidad)
+        session.add(receta_ingrediente)
+        session.commit()
+        return receta_ingrediente.id
 
     def editar_ingrediente_receta(self, id_ingrediente_receta, receta, ingrediente, cantidad):
         return None
@@ -163,7 +168,7 @@ class Logica(FachadaRecetario):
             return "El campo cantidad no puede ser cero"
         if receta is None:
             return "El campo receta no puede ser vacío"
-        return None
+        return ""
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):
         return None
