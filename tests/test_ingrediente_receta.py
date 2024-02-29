@@ -24,6 +24,8 @@ class IngredienteRecetaTestCase(unittest.TestCase):
                             en_uso=False)
         session.add(self.ingrediente)
 
+        session.commit()
+
 
     def tearDown(self):
         busqueda0 = session.query(RecetaIngrediente).all()
@@ -89,3 +91,11 @@ class IngredienteRecetaTestCase(unittest.TestCase):
     def test_validar_crear_ingrediente_receta_campo_receta_vacio(self):
         mensaje = self.logica.validar_crear_editar_ingReceta(receta=None, ingrediente=self.ingrediente, cantidad="5")
         self.assertEqual(mensaje, "El campo receta no puede ser vacío")
+
+    # Al agregar un ingrediente a la receta que pase todas las validaciones, se debe registrar en la base de datos.
+    def test_agregar_ingrediente_receta_exitosamente(self):
+        cantidad = "5"
+        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente, cantidad=cantidad)
+        ingrediente_receta_id = self.logica.agregar_ingrediente_receta(receta=self.receta, ingrediente=self.ingrediente, cantidad=cantidad)
+        self.assertEqual(mensaje, "")
+        self.assertTrue(ingrediente_receta_id > 0)
