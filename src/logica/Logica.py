@@ -15,7 +15,7 @@ class Logica(FachadaRecetario):
         return [elem.__dict__ for elem in session.query(Receta).order_by(Receta.nombre.asc()).all()]
 
     def dar_receta(self, id_receta):
-        return None
+        return session.query(Receta).get(id_receta).__dict__
 
     def validar_crear_editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
         if receta == "":
@@ -143,13 +143,32 @@ class Logica(FachadaRecetario):
                                                  .all()]
 
     def agregar_ingrediente_receta(self, receta, ingrediente, cantidad):
-        return None
+        receta_ingrediente = RecetaIngrediente(receta_id=receta.id,
+                                               ingrediente_id=ingrediente.id,
+                                               cantidad_ingredientes=cantidad)
+        session.add(receta_ingrediente)
+        session.commit()
+        return receta_ingrediente.id
 
     def editar_ingrediente_receta(self, id_ingrediente_receta, receta, ingrediente, cantidad):
         return None
 
     def validar_crear_editar_ingReceta(self, receta, ingrediente, cantidad):
-        return None
+        if ingrediente is None:
+            return "El campo ingrediente no puede ser vacío"
+        if cantidad == "":
+            return "El campo cantidad no puede ser vacío"
+        try:
+            int(cantidad)
+        except ValueError:
+            return "El campo cantidad no puede ser un texto"
+        if int(cantidad) < 0:
+            return "El campo cantidad no puede ser negativo"
+        if int(cantidad) == 0:
+            return "El campo cantidad no puede ser cero"
+        if receta is None:
+            return "El campo receta no puede ser vacío"
+        return ""
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):
         return None
