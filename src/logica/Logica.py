@@ -153,6 +153,10 @@ class Logica(FachadaRecetario):
             return "El campo ingrediente no puede ser vacío"
         if cantidad == "":
             return "El campo cantidad no puede ser vacío"
+        try:
+            int(cantidad)
+        except ValueError:
+            return "El campo cantidad no puede ser un texto"
         return None
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):
