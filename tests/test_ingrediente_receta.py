@@ -69,3 +69,8 @@ class IngredienteRecetaTestCase(unittest.TestCase):
     def test_validar_crear_ingrediente_receta_campo_cantidad_vacio(self):
         mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente, cantidad="")
         self.assertEqual(mensaje, "El campo cantidad no puede ser vacío")
+
+    # Al agregar un ingrediente a la receta con el campo "Cantidad" como texto, debe lanzar un mensaje de error.
+    def test_validar_crear_ingrediente_receta_campo_cantidad_como_texto(self):
+        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente, cantidad="hola")
+        self.assertEqual(mensaje, "El campo cantidad no puede ser un texto")
