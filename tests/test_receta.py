@@ -53,6 +53,13 @@ class RecetaTestCase(unittest.TestCase):
                                                           personas=4, calorias=500, preparacion="Hervir el arroz")
         self.assertEqual(mensaje, "El nombre de la receta no puede ser vacío")
 
+    # Al crear una receta con el campo "Receta" mayor a 50 caracteres, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_receta_con_longitud_invalida(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=0, receta="X" * 51, tiempo="00:10:10",
+                                                          personas=4, calorias=500, preparacion="Hervir el arroz")
+        self.assertEqual(mensaje, "El nombre de la receta no puede tener más de 50 caracteres")
+
+
     # Al crear una receta con el campo "Tiempo preparación" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_tiempo_vacio(self):
         mensaje = self.logica.validar_crear_editar_receta(id_receta=0, receta="Arroz con pollo", tiempo="",
