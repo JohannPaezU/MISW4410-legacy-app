@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QApplication
 from .VistaListaRecetas import VistaListaRecetas
 from .VistaReceta import VistaReceta
 from .VistaListaIngredientes import VistaListaIngredientes
+from .VistaListaRecetas import VistaListaRecetas
 #from .VistaPersonasPreparacion import VistaPersonasPreparacion
 from .VistaPreparacion import VistaPreparacion
 from .VistaListaIngredientesReceta import VistaListaIngredientesReceta
@@ -118,7 +119,7 @@ class App_Recetario(QApplication):
         if validacion == "":
             self.logica.agregar_ingrediente_receta(receta, ingrediente, cantidad)
         else:
-            self.vista_lista_ingredientesReceta.error(validacion)
+            self.vista_lista_ingReceta.error(validacion)
 
 
     
@@ -130,7 +131,7 @@ class App_Recetario(QApplication):
         if validacion == "":
             self.logica.editar_ingrediente_receta(id_ingrediente_receta,receta, ingrediente, cantidad)
         else:
-            self.vista_lista_ingredientesReceta.error(validacion)
+            self.vista_lista_ingReceta.error(validacion)
 
 			
     def eliminar_ingrediente_receta(self, indice, receta):
