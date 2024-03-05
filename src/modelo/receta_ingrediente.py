@@ -14,7 +14,7 @@ class RecetaIngrediente(Base):
         Integer,
         ForeignKey('ingrediente.id'))
 
-    cantidad_ingredientes = Column(Integer)
+    cantidad = Column(Integer)
     __table_args__ = (
         UniqueConstraint('receta_id', 'ingrediente_id'),
     )

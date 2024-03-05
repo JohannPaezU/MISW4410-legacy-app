@@ -81,7 +81,7 @@ class Logica(FachadaRecetario):
         return [elem.__dict__ for elem in session.query(Ingrediente).all()]
 
     def dar_ingrediente(self, id_ingrediente):
-        return None
+        return session.query(Ingrediente).get(id_ingrediente).__dict__
 
     def validar_crear_editar_ingrediente(self, nombre, unidad, valor, sitioCompra):
         if nombre == "":
@@ -140,14 +140,21 @@ class Logica(FachadaRecetario):
         return None
 
     def dar_ingredientes_receta(self, id_receta):
-        return [elem.__dict__ for elem in session.query(RecetaIngrediente)
-                                                 .filter(RecetaIngrediente.receta_id == id_receta)
-                                                 .all()]
+        ingredientes =  [elem.__dict__ for elem in session.query(RecetaIngrediente)
+                                                          .filter(RecetaIngrediente.receta_id == id_receta)
+                                                          .all()]
+
+        for ingrediente in ingredientes:
+            ingrediente_db = self.dar_ingrediente(ingrediente["id"])
+            ingrediente["ingrediente"] = ingrediente_db["nombre"]
+            ingrediente["unidad"] = ingrediente_db["unidad"]
+
+        return ingredientes
 
     def agregar_ingrediente_receta(self, receta, ingrediente, cantidad):
-        receta_ingrediente = RecetaIngrediente(receta_id=receta.id,
-                                               ingrediente_id=ingrediente.id,
-                                               cantidad_ingredientes=cantidad)
+        receta_ingrediente = RecetaIngrediente(receta_id=receta["id"],
+                                               ingrediente_id=ingrediente["id"],
+                                               cantidad=cantidad)
         session.add(receta_ingrediente)
         session.commit()
         return receta_ingrediente.id

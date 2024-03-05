@@ -169,7 +169,7 @@ class VistaListaIngredientesReceta(QWidget):
         dialogo=VistaCrearIngReceta(self.lista_ings_receta[id_ingrediente_receta], self.interfaz, self.ingredientes)
         dialogo.exec_()
         if dialogo.resultado==1:            
-            self.interfaz.editar_ingrediente_receta(id_ingrediente_receta,self.receta, self.ingredientes[dialogo.combobox_ingredientes.currentIndex()], dialogo.texto_cantidad.text())
+            self.interfaz.editar_ingrediente_receta(self.lista_ings_receta[id_ingrediente_receta]["id"],self.receta, self.ingredientes[dialogo.combobox_ingredientes.currentIndex()], dialogo.texto_cantidad.text())
             self.hide()
             self.interfaz.mostrar_ingredientes_receta(self.receta)
 
@@ -186,7 +186,7 @@ class VistaListaIngredientesReceta(QWidget):
         mensaje_confirmacion.setStandardButtons(QMessageBox.Yes | QMessageBox.No ) 
         respuesta=mensaje_confirmacion.exec_()
         if respuesta == QMessageBox.Yes:
-            self.interfaz.eliminar_ingrediente_receta(id_ingrediente_receta, self.receta)
+            self.interfaz.eliminar_ingrediente_receta(self.lista_ings_receta[id_ingrediente_receta]["id"], self.receta)
             self.hide()
             self.interfaz.mostrar_ingredientes_receta(self.receta)
 

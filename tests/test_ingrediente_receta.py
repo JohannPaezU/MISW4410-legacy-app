@@ -20,6 +20,7 @@ class IngredienteRecetaTestCase(unittest.TestCase):
                              preparacion=self.data_factory.text(max_nb_chars=500),
                              tiempo=self.data_factory.time(pattern="%H:%M:%S"))
         session.add(self.receta)
+        session.commit()
 
         self.ingrediente = Ingrediente(nombre=self.data_factory.text(max_nb_chars=50),
                                        unidad=self.data_factory.text(max_nb_chars=20),
@@ -27,7 +28,6 @@ class IngredienteRecetaTestCase(unittest.TestCase):
                                        sitioCompra=self.data_factory.text(max_nb_chars=100),
                                        en_uso=self.data_factory.boolean())
         session.add(self.ingrediente)
-
         session.commit()
 
 
@@ -61,7 +61,7 @@ class IngredienteRecetaTestCase(unittest.TestCase):
     def test_listar_ingredientes_receta_lista_llena(self):
         ingrediente_receta = RecetaIngrediente(receta_id=1,
                                                ingrediente_id=1,
-                                               cantidad_ingredientes=self.data_factory.random_int(1, 100))
+                                               cantidad=self.data_factory.random_int(1, 100))
         session.add(ingrediente_receta)
         lista_ingredientes = self.logica.dar_ingredientes_receta(1)
         self.assertTrue(len(lista_ingredientes) > 0)
@@ -107,7 +107,8 @@ class IngredienteRecetaTestCase(unittest.TestCase):
         cantidad = str(self.data_factory.random_int(1, 100))
         mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente,
                                                              cantidad=cantidad)
-        ingrediente_receta_id = self.logica.agregar_ingrediente_receta(receta=self.receta, ingrediente=self.ingrediente,
+        ingrediente_receta_id = self.logica.agregar_ingrediente_receta(receta=self.receta.to_dict(),
+                                                                       ingrediente=self.ingrediente.to_dict(),
                                                                        cantidad=cantidad)
         self.assertEqual(mensaje, "")
         self.assertTrue(ingrediente_receta_id > 0)

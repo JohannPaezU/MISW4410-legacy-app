@@ -13,3 +13,6 @@ class Ingrediente(Base):
     sitioCompra = Column(String)
     en_uso = Column(Boolean)
     recetas = relationship('Receta', secondary='receta_ingrediente')
+
+    def to_dict(self):
+        return {field.name:getattr(self, field.name) for field in self.__table__.c}

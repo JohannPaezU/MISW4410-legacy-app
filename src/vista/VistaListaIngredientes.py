@@ -186,7 +186,7 @@ class VistaListaIngredientes(QWidget):
         dialogo=VistaCrearIngrediente(self.ingredientes[id_ingrediente], self.interfaz)
         dialogo.exec_()
         if dialogo.resultado==1:  
-            self.interfaz.editar_ingrediente(id_ingrediente, dialogo.texto_nombre.text(), dialogo.texto_unidad.text(),dialogo.texto_valor.text(), dialogo.texto_sitioCompra.text())
+            self.interfaz.editar_ingrediente(self.ingredientes[id_ingrediente]["id"], dialogo.texto_nombre.text(), dialogo.texto_unidad.text(),dialogo.texto_valor.text(), dialogo.texto_sitioCompra.text())
             self.hide()
             self.interfaz.mostrar_ingredientes()
 
@@ -202,7 +202,7 @@ class VistaListaIngredientes(QWidget):
         mensaje_confirmacion.setStandardButtons(QMessageBox.Yes | QMessageBox.No ) 
         respuesta=mensaje_confirmacion.exec_()
         if respuesta == QMessageBox.Yes:
-            self.interfaz.eliminar_ingrediente(indice_ingrediente)
+            self.interfaz.eliminar_ingrediente(self.ingredientes[indice_ingrediente]["id"])
             self.hide()
             self.interfaz.mostrar_ingredientes()
 
