@@ -177,11 +177,11 @@ class IngredienteRecetaTestCase(unittest.TestCase):
         ingrediente_receta_id = self.logica.agregar_ingrediente_receta(receta=self.receta.to_dict(),
                                                                        ingrediente=self.ingrediente.to_dict(),
                                                                        cantidad=cantidad)
-        mensaje_2 = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta=ingrediente_receta_id,
+        mensaje_2 = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta=str(ingrediente_receta_id),
                                                                receta=self.receta.to_dict(),
                                                                ingrediente=self.ingrediente.to_dict(),
                                                                cantidad=cantidad)
-        ingrediente_receta_id_2 = self.logica.editar_ingrediente_receta(id_ingrediente_receta=ingrediente_receta_id,
+        ingrediente_receta_id_2 = self.logica.editar_ingrediente_receta(id_ingrediente_receta=str(ingrediente_receta_id),
                                                                  receta=self.receta.to_dict(),
                                                                  ingrediente=self.ingrediente.to_dict(),
                                                                  cantidad=cantidad)
