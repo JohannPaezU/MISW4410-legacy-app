@@ -173,3 +173,12 @@ class IngredienteTestCase(unittest.TestCase):
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra=self.ingrediente.sitioCompra)
         self.assertEqual(mensaje, "El valor del campo id ingrediente no puede ser negativo")
+
+    # Al editar un ingrediente con el campo "id_ingrediente" negativo, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_ingrediente_campo_id_ingrediente_inexistente(self):
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente=str(self.data_factory.random_int(1, 10)),
+                                                               nombre=self.ingrediente.nombre,
+                                                               unidad=self.ingrediente.unidad,
+                                                               valor=str(self.ingrediente.valor),
+                                                               sitioCompra=self.ingrediente.sitioCompra)
+        self.assertEqual(mensaje, "El ingrediente a editar no existe")
