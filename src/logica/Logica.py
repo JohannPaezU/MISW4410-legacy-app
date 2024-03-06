@@ -194,6 +194,10 @@ class Logica(FachadaRecetario):
         if int(id_ingrediente_receta) < 0:
             return "El campo id ingrediente receta no puede ser negativo"
 
+        ingrediente_receta = session.query(RecetaIngrediente).get(id_ingrediente_receta)
+        if ingrediente_receta is None and id_ingrediente_receta != "0":
+            return "El ingrediente de receta a editar no existe"
+
         return ""
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):
