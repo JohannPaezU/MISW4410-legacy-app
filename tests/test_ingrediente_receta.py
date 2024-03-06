@@ -166,3 +166,27 @@ class IngredienteRecetaTestCase(unittest.TestCase):
                                                              ingrediente=self.ingrediente.to_dict(),
                                                              cantidad=str(self.data_factory.random_int(1, 100)))
         self.assertEqual(mensaje, "El ingrediente de receta a editar no existe")
+
+    # Al Al editar un ingrediente de receta que pase todas las validaciones, se debe actualizar en la base de datos.
+    def test_editar_ingrediente_receta_exitosamente(self):
+        cantidad = str(self.data_factory.random_int(1, 100))
+        mensaje_1 = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="0",
+                                                               receta=self.receta.to_dict(),
+                                                               ingrediente=self.ingrediente.to_dict(),
+                                                               cantidad=cantidad)
+        ingrediente_receta_id = self.logica.agregar_ingrediente_receta(receta=self.receta.to_dict(),
+                                                                       ingrediente=self.ingrediente.to_dict(),
+                                                                       cantidad=cantidad)
+        mensaje_2 = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta=ingrediente_receta_id,
+                                                               receta=self.receta.to_dict(),
+                                                               ingrediente=self.ingrediente.to_dict(),
+                                                               cantidad=cantidad)
+        ingrediente_receta_id_2 = self.logica.editar_ingrediente_receta(id_ingrediente_receta=ingrediente_receta_id,
+                                                                 receta=self.receta.to_dict(),
+                                                                 ingrediente=self.ingrediente.to_dict(),
+                                                                 cantidad=cantidad)
+
+        self.assertEqual(mensaje_1, "")
+        self.assertTrue(ingrediente_receta_id > 0)
+        self.assertEqual(mensaje_2, "")
+        self.assertTrue(ingrediente_receta_id_2 > 0)
