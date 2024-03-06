@@ -68,44 +68,51 @@ class IngredienteRecetaTestCase(unittest.TestCase):
 
     # Al agregar un ingrediente a la receta con el campo "Ingrediente" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_ingrediente_receta_campo_ingrediente_vacio(self):
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=None, ingrediente=None,
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="0",
+                                                             receta=None, ingrediente=None,
                                                              cantidad=str(self.data_factory.random_int(1, 100)))
         self.assertEqual(mensaje, "El campo ingrediente no puede ser vacío")
 
     # Al agregar un ingrediente a la receta con el campo "Cantidad" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_ingrediente_receta_campo_cantidad_vacio(self):
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente,
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="0",
+                                                             receta=self.receta, ingrediente=self.ingrediente,
                                                              cantidad="")
         self.assertEqual(mensaje, "El campo cantidad no puede ser vacío")
 
     # Al agregar un ingrediente a la receta con el campo "Cantidad" como texto, debe lanzar un mensaje de error.
     def test_validar_crear_ingrediente_receta_campo_cantidad_como_texto(self):
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente,
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="0",
+                                                             receta=self.receta, ingrediente=self.ingrediente,
                                                              cantidad=self.data_factory.text())
         self.assertEqual(mensaje, "El campo cantidad no puede ser un texto")
 
     # Al agregar un ingrediente a la receta con el campo "Cantidad" menor a cero, debe lanzar un mensaje de error.
     def test_validar_crear_ingrediente_receta_campo_cantidad_negativo(self):
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente,
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="0",
+                                                             receta=self.receta, ingrediente=self.ingrediente,
                                                              cantidad=str(self.data_factory.random_int(-10, -1)))
         self.assertEqual(mensaje, "El campo cantidad no puede ser negativo")
 
     # Al agregar un ingrediente a la receta con el campo "Cantidad" en cero, debe lanzar un mensaje de error.
     def test_validar_crear_ingrediente_receta_campo_cantidad_cero(self):
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente,
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="0",
+                                                             receta=self.receta, ingrediente=self.ingrediente,
                                                              cantidad="0")
         self.assertEqual(mensaje, "El campo cantidad no puede ser cero")
 
     # Al agregar un ingrediente a la receta con el campo "Receta" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_ingrediente_receta_campo_receta_vacio(self):
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=None, ingrediente=self.ingrediente,
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="0",
+                                                             receta=None, ingrediente=self.ingrediente,
                                                              cantidad=str(self.data_factory.random_int(1, 100)))
         self.assertEqual(mensaje, "El campo receta no puede ser vacío")
 
     # Al agregar un ingrediente a la receta que pase todas las validaciones, se debe registrar en la base de datos.
     def test_agregar_ingrediente_receta_exitosamente(self):
         cantidad = str(self.data_factory.random_int(1, 100))
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta.to_dict(),
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="0",
+                                                             receta=self.receta.to_dict(),
                                                              ingrediente=self.ingrediente.to_dict(),
                                                              cantidad=cantidad)
         ingrediente_receta_id = self.logica.agregar_ingrediente_receta(receta=self.receta.to_dict(),
@@ -121,8 +128,17 @@ class IngredienteRecetaTestCase(unittest.TestCase):
                                                                        ingrediente=self.ingrediente.to_dict(),
                                                                        cantidad=cantidad)
 
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta.to_dict(),
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="0",
+                                                             receta=self.receta.to_dict(),
                                                              ingrediente=self.ingrediente.to_dict(),
                                                              cantidad=cantidad)
         self.assertTrue(ingrediente_receta_id > 0)
         self.assertEqual(mensaje, "El ingrediente seleccionado ya existe en la receta")
+
+    # Al editar un ingrediente de receta campo id_ingrediente_receta vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_ingrediente_receta_campo_id_ingrediente_receta_vacio(self):
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="", 
+                                                             receta=self.receta.to_dict(),
+                                                             ingrediente=self.ingrediente.to_dict(),
+                                                             cantidad=str(self.data_factory.random_int(1, 100)))
+        self.assertEqual(mensaje, "El campo id ingrediente receta no puede ser vacio")
