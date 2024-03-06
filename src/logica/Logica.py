@@ -149,7 +149,13 @@ class Logica(FachadaRecetario):
         return ingrediente.id
 
     def editar_ingrediente(self, id_ingrediente, nombre, unidad, valor, sitioCompras):
-        return None
+        ingrediente = session.query(Ingrediente).filter(Ingrediente.id == id_ingrediente).first()
+        ingrediente.nombre = nombre
+        ingrediente.unidad = unidad
+        ingrediente.valor = int(valor)
+        ingrediente.sitioCompra = sitioCompras
+        session.commit()
+        return ingrediente.id
 
     def eliminar_ingrediente(self, id_ingrediente):
         return None
