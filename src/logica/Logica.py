@@ -191,6 +191,9 @@ class Logica(FachadaRecetario):
         except ValueError:
             return "El campo id ingrediente receta no puede ser un texto"
 
+        if int(id_ingrediente_receta) < 0:
+            return "El campo id ingrediente receta no puede ser negativo"
+
         return ""
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):
