@@ -1,0 +1,53 @@
+name: CI-Release
+
+# Controls when the action will run. 
+on:
+  push:
+    branches: [ develop ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  job1:
+    name: Pipeline release
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event.head_commit.message, 'release') }}
+    steps:
+    - name: Checkout de repositorio
+      uses: actions/checkout@v2
+    - name: Configuración de entorno de python
+      uses: actions/setup-python@v2
+      with:
+          python-version: '3.7'
+    - name: Instalación de librerías y dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Correr pruebas
+      id: correr-pruebas
+      run: python -m unittest discover -s tests
+    - name: Validar resultado con errores
+      if: ${{ failure() }}
+      env:
+        MENSAJE_ERROR: Una o varias pruebas fallaron
+      run: echo "${MENSAJE_ERROR}"
+    - name: Validar resultado sin errores
+      if: ${{ success() }}
+      env:
+        MENSAJE_EXITO: Todas las pruebas fueron exitosas
+      run: |
+        echo "${MENSAJE_EXITO}"
+    - name: Crear rama release
+      id: crear-rama
+      if: steps.correr-pruebas.outcome == 'success'
+      run: |
+        COMMIT_MESSAGE_HEADER=$(git log -1 --pretty=%B | head -n 1)
+        git checkout -b $COMMIT_MESSAGE_HEADER
+        git push -f -u origin $COMMIT_MESSAGE_HEADER
+        echo "COMMIT_MESSAGE_HEADER=$COMMIT_MESSAGE_HEADER" >> $GITHUB_OUTPUT
+    - name: Mezcla ${{ steps.crear-rama.outputs.COMMIT_MESSAGE_HEADER }} -> main
+      if: steps.correr-pruebas.outcome == 'success'
+      uses: tukasz/direct-merge-action@master
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        source-branch: "${{ steps.crear-rama.outputs.COMMIT_MESSAGE_HEADER }}"
+        target-branch: main
