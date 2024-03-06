@@ -155,3 +155,12 @@ class IngredienteTestCase(unittest.TestCase):
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra=self.ingrediente.sitioCompra)
         self.assertEqual(mensaje, "El valor del campo id ingrediente no puede ser vacío")
+
+    # Al editar un ingrediente con el campo "id_ingrediente" como texto, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_ingrediente_campo_id_ingrediente_texto(self):
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente=self.data_factory.text(),
+                                                               nombre=self.ingrediente.nombre,
+                                                               unidad=self.ingrediente.unidad,
+                                                               valor=str(self.ingrediente.valor),
+                                                               sitioCompra=self.ingrediente.sitioCompra)
+        self.assertEqual(mensaje, "El valor del campo id ingrediente no puede ser un texto")
