@@ -177,6 +177,12 @@ class Logica(FachadaRecetario):
             return "El campo cantidad no puede ser cero"
         if receta is None:
             return "El campo receta no puede ser vacío"
+
+        busqueda = session.query(RecetaIngrediente).filter(RecetaIngrediente.receta_id == receta["id"])\
+            .filter(RecetaIngrediente.ingrediente_id == ingrediente["id"]).all()
+        if len(busqueda) > 0:
+            return "El ingrediente seleccionado ya existe en la receta"
+
         return ""
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):

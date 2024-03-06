@@ -105,7 +105,8 @@ class IngredienteRecetaTestCase(unittest.TestCase):
     # Al agregar un ingrediente a la receta que pase todas las validaciones, se debe registrar en la base de datos.
     def test_agregar_ingrediente_receta_exitosamente(self):
         cantidad = str(self.data_factory.random_int(1, 100))
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente,
+        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta.to_dict(),
+                                                             ingrediente=self.ingrediente.to_dict(),
                                                              cantidad=cantidad)
         ingrediente_receta_id = self.logica.agregar_ingrediente_receta(receta=self.receta.to_dict(),
                                                                        ingrediente=self.ingrediente.to_dict(),
@@ -120,7 +121,8 @@ class IngredienteRecetaTestCase(unittest.TestCase):
                                                                        ingrediente=self.ingrediente.to_dict(),
                                                                        cantidad=cantidad)
 
-        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente,
+        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta.to_dict(),
+                                                             ingrediente=self.ingrediente.to_dict(),
                                                              cantidad=cantidad)
         self.assertTrue(ingrediente_receta_id > 0)
         self.assertEqual(mensaje, "El ingrediente seleccionado ya existe en la receta")
