@@ -150,8 +150,8 @@ class Logica(FachadaRecetario):
 
     def editar_ingrediente(self, id_ingrediente, nombre, unidad, valor, sitioCompras):
         ingrediente = session.query(Ingrediente).filter(Ingrediente.id == id_ingrediente).first()
-        ingrediente.nombre = nombre
-        ingrediente.unidad = unidad
+        # ingrediente.nombre = nombre
+        # ingrediente.unidad = unidad
         ingrediente.valor = int(valor)
         ingrediente.sitioCompra = sitioCompras
         session.commit()
