@@ -142,3 +142,11 @@ class IngredienteRecetaTestCase(unittest.TestCase):
                                                              ingrediente=self.ingrediente.to_dict(),
                                                              cantidad=str(self.data_factory.random_int(1, 100)))
         self.assertEqual(mensaje, "El campo id ingrediente receta no puede ser vacio")
+
+    # Al editar un ingrediente de receta campo id_ingrediente_receta como texto, debe lanzar un mensaje de error.
+    def test_validar_crear_ingrediente_receta_campo_id_ingrediente_receta_texto(self):
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="hola", 
+                                                             receta=self.receta.to_dict(),
+                                                             ingrediente=self.ingrediente.to_dict(),
+                                                             cantidad=str(self.data_factory.random_int(1, 100)))
+        self.assertEqual(mensaje, "El campo id ingrediente receta no puede ser un texto")
