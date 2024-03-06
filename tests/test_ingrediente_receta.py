@@ -136,7 +136,7 @@ class IngredienteRecetaTestCase(unittest.TestCase):
         self.assertEqual(mensaje, "El ingrediente seleccionado ya existe en la receta")
 
     # Al editar un ingrediente de receta campo id_ingrediente_receta vacio, debe lanzar un mensaje de error.
-    def test_validar_crear_ingrediente_receta_campo_id_ingrediente_receta_vacio(self):
+    def test_validar_editar_ingrediente_receta_campo_id_ingrediente_receta_vacio(self):
         mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="", 
                                                              receta=self.receta.to_dict(),
                                                              ingrediente=self.ingrediente.to_dict(),
@@ -144,7 +144,7 @@ class IngredienteRecetaTestCase(unittest.TestCase):
         self.assertEqual(mensaje, "El campo id ingrediente receta no puede ser vacio")
 
     # Al editar un ingrediente de receta campo id_ingrediente_receta como texto, debe lanzar un mensaje de error.
-    def test_validar_crear_ingrediente_receta_campo_id_ingrediente_receta_texto(self):
+    def test_validar_editar_ingrediente_receta_campo_id_ingrediente_receta_texto(self):
         mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta=self.data_factory.text(), 
                                                              receta=self.receta.to_dict(),
                                                              ingrediente=self.ingrediente.to_dict(),
@@ -152,7 +152,7 @@ class IngredienteRecetaTestCase(unittest.TestCase):
         self.assertEqual(mensaje, "El campo id ingrediente receta no puede ser un texto")
     
     # Al editar un ingrediente de receta campo id_ingrediente_receta en negativo, debe lanzar un mensaje de error.
-    def test_validar_crear_ingrediente_receta_campo_id_ingrediente_receta_negativo(self):
+    def test_validar_editar_ingrediente_receta_campo_id_ingrediente_receta_negativo(self):
         mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta=str(self.data_factory.random_int(-10, -1)), 
                                                              receta=self.receta.to_dict(),
                                                              ingrediente=self.ingrediente.to_dict(),
