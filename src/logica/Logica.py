@@ -160,7 +160,12 @@ class Logica(FachadaRecetario):
         return receta_ingrediente.id
 
     def editar_ingrediente_receta(self, id_ingrediente_receta, receta, ingrediente, cantidad):
-        return None
+        ingrediente_receta = session.query(RecetaIngrediente).filter(RecetaIngrediente.id == id_ingrediente_receta).first()
+        ingrediente_receta.receta_id = receta["id"]
+        ingrediente_receta.ingrediente_id = ingrediente["id"]
+        ingrediente_receta.cantidad = cantidad
+        session.commit()
+        return ingrediente_receta.id
 
     def validar_crear_editar_ingReceta(self, id_ingrediente_receta, receta, ingrediente, cantidad):
         if ingrediente is None:
