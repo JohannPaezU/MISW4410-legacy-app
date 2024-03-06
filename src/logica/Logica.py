@@ -124,6 +124,11 @@ class Logica(FachadaRecetario):
         if id_ingrediente == "":
             return "El valor del campo id ingrediente no puede ser vacío"
 
+        try:
+            int(id_ingrediente)
+        except ValueError:
+            return "El valor del campo id ingrediente no puede ser un texto"
+
         return ""
 
     def crear_ingrediente(self, nombre, unidad, valor, sitioCompra):
