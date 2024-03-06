@@ -132,6 +132,10 @@ class Logica(FachadaRecetario):
         if int(id_ingrediente) < 0:
             return "El valor del campo id ingrediente no puede ser negativo"
 
+        ingrediente = session.query(Ingrediente).get(id_ingrediente)
+        if ingrediente is None and id_ingrediente != "0":
+            return "El ingrediente a editar no existe"
+
         return ""
 
     def crear_ingrediente(self, nombre, unidad, valor, sitioCompra):
