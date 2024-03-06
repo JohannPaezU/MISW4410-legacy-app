@@ -83,7 +83,7 @@ class Logica(FachadaRecetario):
     def dar_ingrediente(self, id_ingrediente):
         return session.query(Ingrediente).get(id_ingrediente).__dict__
 
-    def validar_crear_editar_ingrediente(self, nombre, unidad, valor, sitioCompra):
+    def validar_crear_editar_ingrediente(self, id_ingrediente, nombre, unidad, valor, sitioCompra):
         if nombre == "":
             return "El nombre del ingrediente no puede ser vacío"
 
