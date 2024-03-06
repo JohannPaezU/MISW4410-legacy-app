@@ -112,3 +112,15 @@ class IngredienteRecetaTestCase(unittest.TestCase):
                                                                        cantidad=cantidad)
         self.assertEqual(mensaje, "")
         self.assertTrue(ingrediente_receta_id > 0)
+
+    # Al agregar el mismo ingrediente a la misma receta, debe lanzar un mensaje de error.
+    def test_agregar_ingrediente_receta_duplicado(self):
+        cantidad = str(self.data_factory.random_int(1, 100))
+        ingrediente_receta_id = self.logica.agregar_ingrediente_receta(receta=self.receta.to_dict(),
+                                                                       ingrediente=self.ingrediente.to_dict(),
+                                                                       cantidad=cantidad)
+
+        mensaje = self.logica.validar_crear_editar_ingReceta(receta=self.receta, ingrediente=self.ingrediente,
+                                                             cantidad=cantidad)
+        self.assertTrue(ingrediente_receta_id > 0)
+        self.assertEqual(mensaje, "El ingrediente seleccionado ya existe en la receta")
