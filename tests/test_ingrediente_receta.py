@@ -158,3 +158,11 @@ class IngredienteRecetaTestCase(unittest.TestCase):
                                                              ingrediente=self.ingrediente.to_dict(),
                                                              cantidad=str(self.data_factory.random_int(1, 100)))
         self.assertEqual(mensaje, "El campo id ingrediente receta no puede ser negativo")
+
+    # Al editar un ingrediente de receta que no existe, debe lanzar un mensaje de error.
+    def test_validar_editar_ingrediente_receta_inexistente(self):
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta=str(self.data_factory.random_int(1, 10)), 
+                                                             receta=self.receta.to_dict(),
+                                                             ingrediente=self.ingrediente.to_dict(),
+                                                             cantidad=str(self.data_factory.random_int(1, 100)))
+        self.assertEqual(mensaje, "El ingrediente de receta a editar no existe")
