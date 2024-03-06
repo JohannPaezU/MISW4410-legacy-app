@@ -180,8 +180,11 @@ class Logica(FachadaRecetario):
 
         busqueda = session.query(RecetaIngrediente).filter(RecetaIngrediente.receta_id == receta["id"])\
             .filter(RecetaIngrediente.ingrediente_id == ingrediente["id"]).all()
-        if len(busqueda) > 0:
+        if len(busqueda) > 0 and id_ingrediente_receta == "0":
             return "El ingrediente seleccionado ya existe en la receta"
+
+        if id_ingrediente_receta == "":
+            return "El campo id ingrediente receta no puede ser vacio"
 
         return ""
 
