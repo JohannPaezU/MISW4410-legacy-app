@@ -145,8 +145,16 @@ class IngredienteRecetaTestCase(unittest.TestCase):
 
     # Al editar un ingrediente de receta campo id_ingrediente_receta como texto, debe lanzar un mensaje de error.
     def test_validar_crear_ingrediente_receta_campo_id_ingrediente_receta_texto(self):
-        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta="hola", 
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta=self.data_factory.text(), 
                                                              receta=self.receta.to_dict(),
                                                              ingrediente=self.ingrediente.to_dict(),
                                                              cantidad=str(self.data_factory.random_int(1, 100)))
         self.assertEqual(mensaje, "El campo id ingrediente receta no puede ser un texto")
+    
+    # Al editar un ingrediente de receta campo id_ingrediente_receta en negativo, debe lanzar un mensaje de error.
+    def test_validar_crear_ingrediente_receta_campo_id_ingrediente_receta_negativo(self):
+        mensaje = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta=str(self.data_factory.random_int(-10, -1)), 
+                                                             receta=self.receta.to_dict(),
+                                                             ingrediente=self.ingrediente.to_dict(),
+                                                             cantidad=str(self.data_factory.random_int(1, 100)))
+        self.assertEqual(mensaje, "El campo id ingrediente receta no puede ser negativo")
