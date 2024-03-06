@@ -118,8 +118,11 @@ class Logica(FachadaRecetario):
 
         busqueda = session.query(Ingrediente).filter(Ingrediente.nombre == nombre)\
             .filter(Ingrediente.unidad == unidad).all()
-        if len(busqueda) > 0:
+        if len(busqueda) > 0 and id_ingrediente == "0":
             return "Ya existe un ingrediente con el mismo nombre y unidad de medida"
+
+        if id_ingrediente == "":
+            return "El valor del campo id ingrediente no puede ser vacío"
 
         return ""
 
