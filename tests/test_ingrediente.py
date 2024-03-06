@@ -182,3 +182,21 @@ class IngredienteTestCase(unittest.TestCase):
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra=self.ingrediente.sitioCompra)
         self.assertEqual(mensaje, "El ingrediente a editar no existe")
+
+    # Al editar un ingrediente que pase todas las validaciones, se debe actualizar en la base de datos.
+    def test_editar_ingrediente(self):
+        ingrediente_id = self.logica.crear_ingrediente(self.ingrediente.nombre, self.ingrediente.unidad,
+                                                       str(self.ingrediente.valor), self.ingrediente.sitioCompra)
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente=str(ingrediente_id),
+                                                               nombre=self.ingrediente.nombre,
+                                                               unidad=self.ingrediente.unidad,
+                                                               valor=str(self.ingrediente.valor),
+                                                               sitioCompra=self.ingrediente.sitioCompra)
+        ingrediente_edit_id = self.logica.editar_ingrediente(id_ingrediente=str(ingrediente_id),
+                                                             nombre=self.ingrediente.nombre,
+                                                             unidad=self.ingrediente.unidad,
+                                                             valor=str(self.ingrediente.valor),
+                                                             sitioCompras=self.ingrediente.sitioCompra)
+        self.assertTrue(ingrediente_id > 0)
+        self.assertEqual(mensaje, "")
+        self.assertTrue(ingrediente_edit_id > 0)
