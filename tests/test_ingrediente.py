@@ -4,6 +4,8 @@ from src.modelo.declarative_base import session
 from faker import Faker
 import unittest
 
+from src.modelo.receta import Receta
+
 
 class IngredienteTestCase(unittest.TestCase):
 
@@ -17,6 +19,11 @@ class IngredienteTestCase(unittest.TestCase):
                                        valor=self.data_factory.random_int(1, 100000),
                                        sitioCompra=self.data_factory.text(max_nb_chars=100),
                                        en_uso=self.data_factory.boolean())
+        self.receta = Receta(nombre=self.data_factory.unique.text(max_nb_chars=50),
+                              personas=self.data_factory.random_int(1, 50),
+                              calorias=self.data_factory.random_int(1, 3000),
+                              preparacion=self.data_factory.text(max_nb_chars=500),
+                              tiempo=self.data_factory.time(pattern="%H:%M:%S"))
 
     def tearDown(self):
         busqueda = session.query(Ingrediente).all()
@@ -162,3 +169,20 @@ class IngredienteTestCase(unittest.TestCase):
         self.logica.eliminar_ingrediente(str(ingrediente_id))
         consulta2 = self.logica.dar_ingredientes()
         self.assertEqual(len(consulta2), len(consulta1))
+
+    # Al eliminar un ingrediente que esté asociado a una receta, debe lanzar un mensaje de error.
+    def test_eliminar_ingrediente_asociado_a_receta(self):
+        receta_id = self.logica.crear_receta(receta=self.receta.nombre,
+                                             tiempo=self.receta.tiempo,
+                                             personas=str(self.receta.personas),
+                                             calorias=str(self.receta.calorias),
+                                             preparacion=self.receta.preparacion)
+        ingrediente_id = self.logica.crear_ingrediente(self.ingrediente.nombre, self.ingrediente.unidad,
+                                                       str(self.ingrediente.valor), self.ingrediente.sitioCompra)
+
+        self.logica.agregar_ingrediente_receta(receta=self.logica.dar_receta(receta_id),
+                                               ingrediente=self.logica.dar_ingrediente(ingrediente_id),
+                                               cantidad=self.data_factory.random_int(1, 100))
+        with self.assertRaises(ValueError) as contexto:
+            self.logica.eliminar_ingrediente(ingrediente_id)
+        self.assertEqual(str(contexto.exception), "No se puede eliminar un ingrediente que esté asociado a una receta")
