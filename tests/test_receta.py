@@ -239,3 +239,13 @@ class RecetaTestCase(unittest.TestCase):
                                              preparacion=preparacion)
         self.assertEqual(mensaje, "")
         self.assertTrue(receta_id > 0)
+
+    # Al editar una receta con el campo "id_receta" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_id_receta_vacio(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="",
+                                                          receta=self.receta1.nombre,
+                                                          tiempo=self.receta1.tiempo,
+                                                          personas=str(self.receta1.personas),
+                                                          calorias=str(self.receta1.calorias),
+                                                          preparacion=self.receta1.preparacion)
+        self.assertEqual(mensaje, "El id de la receta no puede ser vacío")
