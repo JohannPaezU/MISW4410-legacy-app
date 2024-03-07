@@ -3,7 +3,8 @@ from src.modelo.declarative_base import engine, Base, session
 from src.modelo.ingrediente import Ingrediente
 from src.modelo.receta import Receta
 from src.modelo.receta_ingrediente import RecetaIngrediente
-import re
+import re, math
+from datetime import timedelta
 
 
 class Logica(FachadaRecetario):
@@ -55,7 +56,7 @@ class Logica(FachadaRecetario):
         if len(preparacion) > 500:
             return "La preparación de la receta no puede tener más de 500 caracteres"
         busqueda = session.query(Receta).filter(Receta.nombre == receta).all()
-        if len(busqueda) > 0:
+        if len(busqueda) > 0 and busqueda[0].id != id_receta:
             return "Ya existe una receta con el mismo nombre"
         if id_receta == "":
             return "El id de la receta no puede ser vacío"
@@ -200,6 +201,7 @@ class Logica(FachadaRecetario):
             ingrediente_db = self.dar_ingrediente(ingrediente["id"])
             ingrediente["ingrediente"] = ingrediente_db["nombre"]
             ingrediente["unidad"] = ingrediente_db["unidad"]
+            ingrediente["valor"] = ingrediente_db["valor"]
 
         return ingredientes
 
@@ -261,4 +263,56 @@ class Logica(FachadaRecetario):
         return None
 
     def dar_preparacion(self, id_receta, cantidad_personas):
-        return None
+        if cantidad_personas == "":
+            raise ValueError("La cantidad de personas no puede ser vacío")
+
+        try:
+            int(cantidad_personas)
+        except ValueError:
+            raise ValueError("La cantidad de personas no puede ser un texto")
+
+        if cantidad_personas == 0:
+            raise ValueError("La cantidad de personas no puede ser cero")
+
+        if cantidad_personas < 0:
+            raise ValueError("La cantidad de personas no puede ser negativa")
+
+        receta = self.dar_receta(id_receta)
+        ingredientes_receta = self.dar_ingredientes_receta(id_receta=id_receta)
+
+        # Respuesta
+        preparacion = dict()
+        preparacion["receta"] = receta["nombre"]
+        preparacion["personas"] = cantidad_personas
+        preparacion["calorias"] = receta["calorias"]
+        preparacion["datos_ingredientes"] = []
+
+        costo = 0
+
+        for ingrediente in ingredientes_receta:
+            dato_ingrediente = dict()
+            dato_ingrediente["nombre"] = ingrediente["ingrediente"]
+            dato_ingrediente["unidad"] = ingrediente["unidad"]
+            dato_ingrediente["cantidad"] = math.ceil(cantidad_personas/receta["personas"]) * ingrediente["cantidad"]
+            dato_ingrediente["valor"] = dato_ingrediente["cantidad"] * ingrediente["valor"]
+            costo += dato_ingrediente["valor"]
+            preparacion["datos_ingredientes"].append(dato_ingrediente)
+
+        preparacion["costo"] = costo
+        preparacion["tiempo_preparacion"] = ""
+
+        if len(ingredientes_receta) == 0 or cantidad_personas == int(receta["personas"]):
+            preparacion["tiempo_preparacion"] = receta["tiempo"]
+        elif cantidad_personas < receta["personas"]:
+            horas, minutos, segundos = map(int, receta["tiempo"].split(':'))
+            tr_segundos = timedelta(hours=horas, minutes=minutos, seconds=segundos).total_seconds()
+            tiempo_final = tr_segundos - ((int(receta["personas"]) - cantidad_personas) / (2 * int(receta["personas"]))) * tr_segundos
+            preparacion["tiempo_preparacion"] = str(timedelta(seconds=tiempo_final))
+        elif cantidad_personas > receta["personas"]:
+            horas, minutos, segundos = map(int, receta["tiempo"].split(':'))
+            tr_segundos = timedelta(hours=horas, minutes=minutos, seconds=segundos).total_seconds()
+            cantidad_grupos_completos = cantidad_personas // int(receta["personas"])
+            tiempo_final = tr_segundos + (cantidad_grupos_completos * (2 * tr_segundos / 3))
+            preparacion["tiempo_preparacion"] = str(timedelta(seconds=tiempo_final))
+
+        return preparacion
