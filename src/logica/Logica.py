@@ -156,6 +156,8 @@ class Logica(FachadaRecetario):
         return None
 
     def eliminar_ingrediente(self, id_ingrediente):
+        if id_ingrediente == "":
+            raise ValueError("El campo id de ingrediente no puede ser vacío")
         return None
 
     def dar_ingredientes_receta(self, id_receta):
