@@ -162,6 +162,9 @@ class Logica(FachadaRecetario):
             int(id_ingrediente)
         except ValueError:
             raise ValueError("El campo id de ingrediente debe ser un número")
+        ingrediente = session.query(Ingrediente).get(id_ingrediente)
+        if ingrediente is None:
+            raise ValueError("No existe un ingrediente con el id especificado")
         return None
 
     def dar_ingredientes_receta(self, id_receta):
