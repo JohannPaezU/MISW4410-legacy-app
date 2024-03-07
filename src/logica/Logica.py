@@ -3,7 +3,8 @@ from src.modelo.declarative_base import engine, Base, session
 from src.modelo.ingrediente import Ingrediente
 from src.modelo.receta import Receta
 from src.modelo.receta_ingrediente import RecetaIngrediente
-import re
+import re, math
+from datetime import timedelta
 
 
 class Logica(FachadaRecetario):
@@ -200,6 +201,7 @@ class Logica(FachadaRecetario):
             ingrediente_db = self.dar_ingrediente(ingrediente["id"])
             ingrediente["ingrediente"] = ingrediente_db["nombre"]
             ingrediente["unidad"] = ingrediente_db["unidad"]
+            ingrediente["valor"] = ingrediente_db["valor"]
 
         return ingredientes
 
@@ -275,4 +277,42 @@ class Logica(FachadaRecetario):
         if cantidad_personas < 0:
             raise ValueError("La cantidad de personas no puede ser negativa")
 
-        return None
+        receta = self.dar_receta(id_receta)
+        ingredientes_receta = self.dar_ingredientes_receta(id_receta=id_receta)
+
+        # Respuesta
+        preparacion = dict()
+        preparacion["receta"] = receta["nombre"]
+        preparacion["personas"] = cantidad_personas
+        preparacion["calorias"] = receta["calorias"]
+        preparacion["datos_ingredientes"] = []
+
+        costo = 0
+
+        for ingrediente in ingredientes_receta:
+            dato_ingrediente = dict()
+            dato_ingrediente["nombre"] = ingrediente["ingrediente"]
+            dato_ingrediente["unidad"] = ingrediente["unidad"]
+            dato_ingrediente["cantidad"] = math.ceil(cantidad_personas/receta["personas"]) * ingrediente["cantidad"]
+            dato_ingrediente["valor"] = dato_ingrediente["cantidad"] * ingrediente["valor"]
+            costo += dato_ingrediente["valor"]
+            preparacion["datos_ingredientes"].append(dato_ingrediente)
+
+        preparacion["costo"] = costo
+        preparacion["tiempo_preparacion"] = ""
+
+        if len(ingredientes_receta) == 0 or cantidad_personas == int(receta["personas"]):
+            preparacion["tiempo_preparacion"] = receta["tiempo"]
+        elif cantidad_personas < receta["personas"]:
+            lista = receta["tiempo"].split(":")
+            tr_segundos = int(lista[0]) * 60 * 60 + int(lista[1]) * 60 + int(lista[2])
+            tiempo_final = tr_segundos - ((int(receta["personas"]) - cantidad_personas) / (2 * int(receta["personas"]))) * tr_segundos
+            preparacion["tiempo_preparacion"] = str(timedelta(seconds=tiempo_final))
+        elif cantidad_personas > receta["personas"]:
+            lista = receta["tiempo"].split(":")
+            tr_segundos = int(lista[0]) * 60 * 60 + int(lista[1]) * 60 + int(lista[2])
+            cantidad_grupos_completos = cantidad_personas // int(receta["personas"])
+            tiempo_final = tr_segundos + (cantidad_grupos_completos * (2 * tr_segundos / 3))
+            preparacion["tiempo_preparacion"] = str(timedelta(seconds=tiempo_final))
+
+        return preparacion
