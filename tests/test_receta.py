@@ -310,3 +310,9 @@ class RecetaTestCase(unittest.TestCase):
         with self.assertRaises(ValueError) as contexto:
             self.logica.dar_preparacion(id_receta=1, cantidad_personas=self.data_factory.text())
         self.assertEqual(str(contexto.exception), "La cantidad de personas no puede ser un texto")
+
+    # Al preparar una receta con el campo " Número de personas" igual a cero, debe lanzar un mensaje de error.
+    def test_validar_preparar_receta_campo_personas_cero(self):
+        with self.assertRaises(ValueError) as contexto:
+            self.logica.dar_preparacion(id_receta=1, cantidad_personas=0)
+        self.assertEqual(str(contexto.exception), "La cantidad de personas no puede ser cero")
