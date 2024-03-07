@@ -141,3 +141,9 @@ class IngredienteTestCase(unittest.TestCase):
         with self.assertRaises(ValueError) as contexto:
             self.logica.eliminar_ingrediente("")
         self.assertEqual(str(contexto.exception), "El campo id de ingrediente no puede ser vacío")
+
+    # Al eliminar un ingrediente con el campo "id_ingrediente" como texto, debe lanzar un mensaje de error
+    def test_eliminar_ingrediente_campo_id_ingrediente_texto(self):
+        with self.assertRaises(ValueError) as contexto:
+            self.logica.eliminar_ingrediente(self.data_factory.text())
+        self.assertEqual(str(contexto.exception), "El campo id de ingrediente debe ser un número")
