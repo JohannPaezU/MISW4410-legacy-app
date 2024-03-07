@@ -264,4 +264,9 @@ class Logica(FachadaRecetario):
         if cantidad_personas == "":
             raise ValueError("La cantidad de personas no puede ser vacío")
 
+        try:
+            int(cantidad_personas)
+        except ValueError:
+            raise ValueError("La cantidad de personas no puede ser un texto")
+
         return None
