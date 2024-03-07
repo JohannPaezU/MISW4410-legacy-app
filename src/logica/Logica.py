@@ -57,6 +57,8 @@ class Logica(FachadaRecetario):
         busqueda = session.query(Receta).filter(Receta.nombre == receta).all()
         if len(busqueda) > 0:
             return "Ya existe una receta con el mismo nombre"
+        if id_receta == "":
+            return "El id de la receta no puede ser vacío"
 
         return ""
 
