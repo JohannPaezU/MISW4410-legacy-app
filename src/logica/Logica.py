@@ -261,4 +261,7 @@ class Logica(FachadaRecetario):
         return None
 
     def dar_preparacion(self, id_receta, cantidad_personas):
+        if cantidad_personas == "":
+            raise ValueError("La cantidad de personas no puede ser vacío")
+
         return None
