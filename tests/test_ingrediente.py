@@ -153,3 +153,12 @@ class IngredienteTestCase(unittest.TestCase):
         with self.assertRaises(ValueError) as contexto:
             self.logica.eliminar_ingrediente(str(self.data_factory.random_int(-100, -2)))
         self.assertEqual(str(contexto.exception), "No existe un ingrediente con el id especificado")
+
+    # Al eliminar un ingrediente con el campo "id_ingrediente" existente, se debe eliminar de la base de datos.
+    def test_eliminar_ingrediente(self):
+        consulta1 = self.logica.dar_ingredientes()
+        ingrediente_id = self.logica.crear_ingrediente(self.ingrediente.nombre, self.ingrediente.unidad,
+                                                       str(self.ingrediente.valor), self.ingrediente.sitioCompra)
+        self.logica.eliminar_ingrediente(str(ingrediente_id))
+        consulta2 = self.logica.dar_ingredientes()
+        self.assertEqual(len(consulta2), len(consulta1))
