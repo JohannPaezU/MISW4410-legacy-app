@@ -165,7 +165,7 @@ class Logica(FachadaRecetario):
         ingrediente = session.query(Ingrediente).get(id_ingrediente)
         if ingrediente is None:
             raise ValueError("No existe un ingrediente con el id especificado")
-        return None
+        session.delete(ingrediente)
 
     def dar_ingredientes_receta(self, id_receta):
         ingredientes =  [elem.__dict__ for elem in session.query(RecetaIngrediente)
