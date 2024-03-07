@@ -259,3 +259,13 @@ class RecetaTestCase(unittest.TestCase):
                                                           calorias=str(self.receta1.calorias),
                                                           preparacion=self.receta1.preparacion)
         self.assertEqual(mensaje, "El id de la receta no puede ser un texto")
+
+    # Al editar una receta con el campo "id_receta" inexistente, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_id_receta_inexistente(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=self.data_factory.random_int(-100, -2),
+                                                          receta=self.receta1.nombre,
+                                                          tiempo=self.receta1.tiempo,
+                                                          personas=str(self.receta1.personas),
+                                                          calorias=str(self.receta1.calorias),
+                                                          preparacion=self.receta1.preparacion)
+        self.assertEqual(mensaje, "La receta que intenta editar no existe")
