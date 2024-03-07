@@ -56,7 +56,7 @@ class Logica(FachadaRecetario):
         if len(preparacion) > 500:
             return "La preparación de la receta no puede tener más de 500 caracteres"
         busqueda = session.query(Receta).filter(Receta.nombre == receta).all()
-        if len(busqueda) > 0:
+        if len(busqueda) > 0 and busqueda[0].id != id_receta:
             return "Ya existe una receta con el mismo nombre"
         if id_receta == "":
             return "El id de la receta no puede ser vacío"
@@ -304,13 +304,13 @@ class Logica(FachadaRecetario):
         if len(ingredientes_receta) == 0 or cantidad_personas == int(receta["personas"]):
             preparacion["tiempo_preparacion"] = receta["tiempo"]
         elif cantidad_personas < receta["personas"]:
-            lista = receta["tiempo"].split(":")
-            tr_segundos = int(lista[0]) * 60 * 60 + int(lista[1]) * 60 + int(lista[2])
+            horas, minutos, segundos = map(int, receta["tiempo"].split(':'))
+            tr_segundos = timedelta(hours=horas, minutes=minutos, seconds=segundos).total_seconds()
             tiempo_final = tr_segundos - ((int(receta["personas"]) - cantidad_personas) / (2 * int(receta["personas"]))) * tr_segundos
             preparacion["tiempo_preparacion"] = str(timedelta(seconds=tiempo_final))
         elif cantidad_personas > receta["personas"]:
-            lista = receta["tiempo"].split(":")
-            tr_segundos = int(lista[0]) * 60 * 60 + int(lista[1]) * 60 + int(lista[2])
+            horas, minutos, segundos = map(int, receta["tiempo"].split(':'))
+            tr_segundos = timedelta(hours=horas, minutes=minutos, seconds=segundos).total_seconds()
             cantidad_grupos_completos = cantidad_personas // int(receta["personas"])
             tiempo_final = tr_segundos + (cantidad_grupos_completos * (2 * tr_segundos / 3))
             preparacion["tiempo_preparacion"] = str(timedelta(seconds=tiempo_final))
