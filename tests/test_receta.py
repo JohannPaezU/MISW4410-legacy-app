@@ -1,9 +1,10 @@
-import unittest
-
 from src.logica.Logica import Logica
 from src.modelo.declarative_base import session
+from src.modelo.ingrediente import Ingrediente
+from src.modelo.receta_ingrediente import RecetaIngrediente
 from src.modelo.receta import Receta
 from faker import Faker
+import unittest
 
 
 class RecetaTestCase(unittest.TestCase):
@@ -13,21 +14,43 @@ class RecetaTestCase(unittest.TestCase):
         self.data_factory = Faker()
 
         self.receta1 = Receta(nombre=self.data_factory.unique.text(max_nb_chars=50),
-                                   personas=self.data_factory.random_int(1, 50),
-                                   calorias=self.data_factory.random_int(1, 3000),
-                                   preparacion=self.data_factory.text(max_nb_chars=500),
-                                   tiempo=self.data_factory.time(pattern="%H:%M:%S"))
+                              personas=self.data_factory.random_int(1, 50),
+                              calorias=self.data_factory.random_int(1, 500),
+                              preparacion=self.data_factory.text(max_nb_chars=500),
+                              tiempo=self.data_factory.time(pattern="%H:%M:%S"))
 
         self.receta2 = Receta(nombre=self.data_factory.unique.text(max_nb_chars=50),
-                                    personas=self.data_factory.random_int(1, 50),
-                                    calorias=self.data_factory.random_int(1, 3000),
-                                    preparacion=self.data_factory.text(max_nb_chars=500),
-                                    tiempo=self.data_factory.time(pattern="%H:%M:%S"))
+                              personas=self.data_factory.random_int(1, 50),
+                              calorias=self.data_factory.random_int(1, 500),
+                              preparacion=self.data_factory.text(max_nb_chars=500),
+                              tiempo=self.data_factory.time(pattern="%H:%M:%S"))
+
+        self.ingrediente1 = Ingrediente(nombre=self.data_factory.unique.text(max_nb_chars=50),
+                                        unidad=self.data_factory.unique.text(max_nb_chars=20),
+                                        valor=self.data_factory.random_int(1, 100),
+                                        sitioCompra=self.data_factory.text(max_nb_chars=100))
+
+        self.ingrediente2 = Ingrediente(nombre=self.data_factory.unique.text(max_nb_chars=50),
+                                        unidad=self.data_factory.unique.text(max_nb_chars=20),
+                                        valor=self.data_factory.random_int(1, 100),
+                                        sitioCompra=self.data_factory.text(max_nb_chars=100))
 
     def tearDown(self):
-        busqueda = session.query(Receta).all()
+        busqueda0 = session.query(RecetaIngrediente).all()
+        busqueda1 = session.query(Ingrediente).all()
+        busqueda2 = session.query(Receta).all()
 
-        for receta in busqueda:
+        for receta_ingrediente in busqueda0:
+            session.delete(receta_ingrediente)
+
+        session.commit()
+
+        for ingrediente in busqueda1:
+            session.delete(ingrediente)
+
+        session.commit()
+
+        for receta in busqueda2:
             session.delete(receta)
 
         session.commit()
@@ -75,7 +98,6 @@ class RecetaTestCase(unittest.TestCase):
                                                           calorias=str(self.receta1.calorias),
                                                           preparacion=self.receta1.preparacion)
         self.assertEqual(mensaje, "El nombre de la receta no puede tener más de 50 caracteres")
-
 
     # Al crear una receta con el campo "Tiempo preparación" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_tiempo_vacio(self):
@@ -322,3 +344,26 @@ class RecetaTestCase(unittest.TestCase):
         with self.assertRaises(ValueError) as contexto:
             self.logica.dar_preparacion(id_receta=1, cantidad_personas=self.data_factory.random_int(-10, -1))
         self.assertEqual(str(contexto.exception), "La cantidad de personas no puede ser negativa")
+
+    # # Al preparar una receta, debe retornar la información de la preparación.
+    def test_preparar_receta(self):
+        ingrediente_id1 = self.logica.crear_ingrediente(self.ingrediente1.nombre, self.ingrediente1.unidad,
+                                                        str(self.ingrediente1.valor), self.ingrediente1.sitioCompra)
+        ingrediente_id2 = self.logica.crear_ingrediente(self.ingrediente2.nombre, self.ingrediente2.unidad,
+                                                        str(self.ingrediente2.valor), self.ingrediente2.sitioCompra)
+        receta_id = self.logica.crear_receta(receta=self.receta1.nombre,
+                                             tiempo=self.receta1.tiempo,
+                                             personas=str(self.receta1.personas),
+                                             calorias=str(self.receta1.calorias),
+                                             preparacion=self.receta1.preparacion)
+        self.logica.agregar_ingrediente_receta(receta=self.logica.dar_receta(receta_id),
+                                               ingrediente=self.logica.dar_ingrediente(ingrediente_id1),
+                                               cantidad=self.data_factory.random_int(1, 100))
+        self.logica.agregar_ingrediente_receta(receta=self.logica.dar_receta(receta_id),
+                                               ingrediente=self.logica.dar_ingrediente(ingrediente_id2),
+                                               cantidad=self.data_factory.random_int(1, 100))
+        preparacion = self.logica.dar_preparacion(id_receta=receta_id,
+                                                  cantidad_personas=self.data_factory.random_int(1, 10))
+
+        self.assertTrue(preparacion is not None)
+        self.assertTrue(len(preparacion) > 0)
