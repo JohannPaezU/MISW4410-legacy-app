@@ -135,3 +135,9 @@ class IngredienteTestCase(unittest.TestCase):
                                       self.ingrediente.sitioCompra)
         consulta2 = self.logica.dar_ingredientes()
         self.assertGreater(len(consulta2), len(consulta1))
+
+    # Al eliminar un ingrediente con el campo "id_ingrediente" vacio, debe lanzar un mensaje de error.
+    def test_eliminar_ingrediente_campo_id_ingrediente_vacio(self):
+        with self.assertRaises(ValueError) as contexto:
+            self.logica.eliminar_ingrediente("")
+        self.assertEqual(str(contexto.exception), "El campo id de ingrediente no puede ser vacío")
