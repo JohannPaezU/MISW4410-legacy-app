@@ -128,14 +128,14 @@ class VistaListaRecetas(QWidget):
                 btn_editar_receta.setToolTip("Editar")
                 btn_editar_receta.setFixedSize(40,40)
                 btn_editar_receta.setIcon(QIcon("src/recursos/004-edit-button.png"))
-                btn_editar_receta.clicked.connect(partial(self.mostrar_receta,numero_fila) )
+                btn_editar_receta.clicked.connect(partial(self.mostrar_receta,dic_receta["id"]))
                 self.distribuidor_tabla_recetas.addWidget(btn_editar_receta,numero_fila,2,Qt.AlignCenter)
 
                 btn_eliminar=QPushButton("",self)
                 btn_eliminar.setToolTip("Borrar")
                 btn_eliminar.setFixedSize(40,40)
                 btn_eliminar.setIcon(QIcon("src/recursos/005-delete.png"))
-                btn_eliminar.clicked.connect(partial(self.eliminar_receta,numero_fila) )
+                btn_eliminar.clicked.connect(partial(self.eliminar_receta,dic_receta["id"]))
                 self.distribuidor_tabla_recetas.addWidget(btn_eliminar,numero_fila,3,Qt.AlignCenter)
 
                 btn_preparar_receta = QPushButton("", self)
@@ -143,7 +143,7 @@ class VistaListaRecetas(QWidget):
                 btn_preparar_receta.setFixedSize(40, 40)
                 btn_preparar_receta.setIcon(QIcon("src/recursos/002-preparar.png"))
                 btn_preparar_receta.clicked.connect(
-                    partial(self.mostrar_ventana_preparar, numero_fila))
+                    partial(self.mostrar_ventana_preparar, dic_receta["id"]))
                 self.distribuidor_tabla_recetas.addWidget(btn_preparar_receta, numero_fila, 4,
                                                            Qt.AlignCenter)
 
