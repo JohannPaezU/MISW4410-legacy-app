@@ -81,7 +81,17 @@ class Logica(FachadaRecetario):
         return receta.id
 
     def editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
-        return None
+        try:
+            receta_db = session.query(Receta).get(id_receta)
+            receta_db.nombre = receta
+            receta_db.tiempo = tiempo
+            receta_db.personas = personas
+            receta_db.calorias = calorias
+            receta_db.preparacion = preparacion
+            session.commit()
+            return True
+        except Exception:
+            return False
 
     def eliminar_receta(self, id_receta):
         return None
