@@ -146,8 +146,7 @@ class Logica(FachadaRecetario):
         ingrediente = Ingrediente(nombre=nombre,
                                   unidad=unidad,
                                   valor=int(valor),
-                                  sitioCompra=sitioCompra,
-                                  en_uso=False)
+                                  sitioCompra=sitioCompra)
         session.add(ingrediente)
         session.commit()
         return ingrediente.id
@@ -169,6 +168,7 @@ class Logica(FachadaRecetario):
         if len(busqueda) > 0:
             raise ValueError("No se puede eliminar un ingrediente que esté asociado a una receta")
         session.delete(ingrediente)
+        session.commit()
 
     def dar_ingredientes_receta(self, id_receta):
         ingredientes =  [elem.__dict__ for elem in session.query(RecetaIngrediente)

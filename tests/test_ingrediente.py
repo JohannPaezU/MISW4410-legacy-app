@@ -17,8 +17,7 @@ class IngredienteTestCase(unittest.TestCase):
         self.ingrediente = Ingrediente(nombre=self.data_factory.unique.text(max_nb_chars=50),
                                        unidad=self.data_factory.unique.text(max_nb_chars=20),
                                        valor=self.data_factory.random_int(1, 100000),
-                                       sitioCompra=self.data_factory.text(max_nb_chars=100),
-                                       en_uso=self.data_factory.boolean())
+                                       sitioCompra=self.data_factory.text(max_nb_chars=100))
         self.receta = Receta(nombre=self.data_factory.unique.text(max_nb_chars=50),
                               personas=self.data_factory.random_int(1, 50),
                               calorias=self.data_factory.random_int(1, 3000),

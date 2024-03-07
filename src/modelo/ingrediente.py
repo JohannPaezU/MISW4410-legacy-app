@@ -11,7 +11,6 @@ class Ingrediente(Base):
     unidad = Column(String)
     valor = Column(Integer)
     sitioCompra = Column(String)
-    en_uso = Column(Boolean)
     recetas = relationship('Receta', secondary='receta_ingrediente')
 
     def to_dict(self):
