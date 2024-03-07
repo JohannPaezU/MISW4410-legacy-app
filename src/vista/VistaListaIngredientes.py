@@ -213,11 +213,11 @@ class VistaListaIngredientes(QWidget):
         self.hide()
         self.interfaz.mostrar_vista_lista_recetas()
 
-    def error(self, error):
+    def error(self, error, window_title="Error al guardar ingrediente"):
             mensaje_error=QMessageBox()
             mensaje_error.setIcon(QMessageBox.Question)
             mensaje_error.setText("Error : " + error)
-            mensaje_error.setWindowTitle("Error al guardar ingrediente")
+            mensaje_error.setWindowTitle(window_title)
             mensaje_error.setWindowIcon(QIcon("src/recursos/RecetarioLogo.png"))
             mensaje_error.setStandardButtons(QMessageBox.Ok ) 
             respuesta=mensaje_error.exec_()

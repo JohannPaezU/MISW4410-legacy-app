@@ -106,7 +106,10 @@ class App_Recetario(QApplication):
         """
         Esta función permite eliminar un ingrediente
         """
-        self.logica.eliminar_ingrediente(indice)
+        try:
+            self.logica.eliminar_ingrediente(indice)
+        except Exception as e:
+            self.vista_lista_ingredientes.error(str(e), "Error al eliminar ingrediente")
         self.vista_lista_ingredientes.mostrar_ingredientes(self.logica.dar_ingredientes())
 
 

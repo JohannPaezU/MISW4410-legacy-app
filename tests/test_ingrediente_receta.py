@@ -25,8 +25,7 @@ class IngredienteRecetaTestCase(unittest.TestCase):
         self.ingrediente = Ingrediente(nombre=self.data_factory.text(max_nb_chars=50),
                                        unidad=self.data_factory.text(max_nb_chars=20),
                                        valor=self.data_factory.random_int(1, 100000),
-                                       sitioCompra=self.data_factory.text(max_nb_chars=100),
-                                       en_uso=self.data_factory.boolean())
+                                       sitioCompra=self.data_factory.text(max_nb_chars=100))
         session.add(self.ingrediente)
         session.commit()
 

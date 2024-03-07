@@ -58,7 +58,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Receta" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_receta_vacio(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta="",
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.receta1.personas),
@@ -68,7 +68,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Receta" mayor a 50 caracteres, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_receta_con_longitud_invalida(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta="X" * 51,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.receta1.personas),
@@ -79,7 +79,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Tiempo preparación" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_tiempo_vacio(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo="",
                                                           personas=str(self.receta1.personas),
@@ -89,7 +89,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Tiempo preparación" sin formato "hh:mm:ss", debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_tiempo_invalido(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.data_factory.time(pattern="%H:%M"),
                                                           personas=str(self.receta1.personas),
@@ -99,7 +99,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Tiempo preparación" igual a cero "00:00:00", debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_tiempo_cero(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo="00:00:00",
                                                           personas=str(self.receta1.personas),
@@ -109,7 +109,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Número personas" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_personas_vacio(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas="",
@@ -119,7 +119,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Número personas" menor a cero, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_personas_negativo(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.data_factory.random_int(-10, -1)),
@@ -129,7 +129,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Número personas" igual a cero, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_personas_cero(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas="0",
@@ -139,7 +139,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Número personas" como texto, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_personas_texto(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=self.data_factory.text(),
@@ -149,7 +149,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Calorias por porción" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_calorias_vacio(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.receta1.personas),
@@ -159,7 +159,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Calorias por porción" menor a cero, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_calorias_negativo(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.receta1.personas),
@@ -169,7 +169,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Calorias por porción" igual a cero, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_calorias_cero(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.receta1.personas),
@@ -179,7 +179,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Calorias por porción" como texto, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_calorias_texto(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0", 
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.receta1.personas),
@@ -189,7 +189,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Preparación" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_preparacion_vacio(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.receta1.personas),
@@ -199,7 +199,7 @@ class RecetaTestCase(unittest.TestCase):
 
     # Al crear una receta con el campo "Preparación" mayor a 500 caracteres, debe lanzar un mensaje de error.
     def test_validar_crear_editar_receta_campo_preparacion_con_longitud_invalida(self):
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.receta1.personas),
@@ -211,7 +211,7 @@ class RecetaTestCase(unittest.TestCase):
     def test_validar_crear_editar_receta_ya_existente(self):
         session.add(self.receta1)
         session.commit()
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=self.receta1.nombre,
                                                           tiempo=self.receta1.tiempo,
                                                           personas=str(self.receta1.personas),
@@ -226,7 +226,7 @@ class RecetaTestCase(unittest.TestCase):
         personas = str(self.receta1.personas)
         calorias = str(self.receta1.calorias)
         preparacion = self.receta1.preparacion
-        mensaje = self.logica.validar_crear_editar_receta(id_receta="0",
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=-1,
                                                           receta=receta,
                                                           tiempo=tiempo,
                                                           personas=personas,
@@ -239,3 +239,62 @@ class RecetaTestCase(unittest.TestCase):
                                              preparacion=preparacion)
         self.assertEqual(mensaje, "")
         self.assertTrue(receta_id > 0)
+
+    # Al editar una receta con el campo "id_receta" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_id_receta_vacio(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta="",
+                                                          receta=self.receta1.nombre,
+                                                          tiempo=self.receta1.tiempo,
+                                                          personas=str(self.receta1.personas),
+                                                          calorias=str(self.receta1.calorias),
+                                                          preparacion=self.receta1.preparacion)
+        self.assertEqual(mensaje, "El id de la receta no puede ser vacío")
+
+    # Al editar una receta con el campo "id_receta" como texto, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_id_receta_texto(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=self.data_factory.text(),
+                                                          receta=self.receta1.nombre,
+                                                          tiempo=self.receta1.tiempo,
+                                                          personas=str(self.receta1.personas),
+                                                          calorias=str(self.receta1.calorias),
+                                                          preparacion=self.receta1.preparacion)
+        self.assertEqual(mensaje, "El id de la receta no puede ser un texto")
+
+    # Al editar una receta con el campo "id_receta" inexistente, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_receta_campo_id_receta_inexistente(self):
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=self.data_factory.random_int(-100, -2),
+                                                          receta=self.receta1.nombre,
+                                                          tiempo=self.receta1.tiempo,
+                                                          personas=str(self.receta1.personas),
+                                                          calorias=str(self.receta1.calorias),
+                                                          preparacion=self.receta1.preparacion)
+        self.assertEqual(mensaje, "La receta que intenta editar no existe")
+
+    def test_editar_receta(self):
+        receta_id = self.logica.crear_receta(receta=self.receta1.nombre,
+                                             tiempo=self.receta1.tiempo,
+                                             personas=str(self.receta1.personas),
+                                             calorias=str(self.receta1.calorias),
+                                             preparacion=self.receta1.preparacion)
+        mensaje = self.logica.validar_crear_editar_receta(id_receta=receta_id,
+                                                          receta=self.receta2.nombre,
+                                                          tiempo=self.receta2.tiempo,
+                                                          personas=str(self.receta2.personas),
+                                                          calorias=str(self.receta2.calorias),
+                                                          preparacion=self.receta2.preparacion)
+        respuesta = self.logica.editar_receta(id_receta=receta_id,
+                                              receta=self.receta2.nombre,
+                                              tiempo=self.receta2.tiempo,
+                                              personas=str(self.receta2.personas),
+                                              calorias=str(self.receta2.calorias),
+                                              preparacion=self.receta2.preparacion)
+        receta_guardada = self.logica.dar_receta(receta_id)
+
+        self.assertEqual(mensaje, "")
+        self.assertTrue(receta_id > 0)
+        self.assertEqual(receta_guardada["nombre"], self.receta2.nombre)
+        self.assertEqual(receta_guardada["tiempo"], self.receta2.tiempo)
+        self.assertEqual(receta_guardada["personas"], self.receta2.personas)
+        self.assertEqual(receta_guardada["calorias"], self.receta2.calorias)
+        self.assertEqual(receta_guardada["preparacion"], self.receta2.preparacion)
+        self.assertTrue(respuesta)

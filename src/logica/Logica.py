@@ -57,6 +57,15 @@ class Logica(FachadaRecetario):
         busqueda = session.query(Receta).filter(Receta.nombre == receta).all()
         if len(busqueda) > 0:
             return "Ya existe una receta con el mismo nombre"
+        if id_receta == "":
+            return "El id de la receta no puede ser vacío"
+        try:
+            int(id_receta)
+        except ValueError:
+            return "El id de la receta no puede ser un texto"
+        receta = session.query(Receta).get(id_receta)
+        if receta is None and id_receta != -1:
+            return "La receta que intenta editar no existe"
 
         return ""
 
@@ -72,7 +81,17 @@ class Logica(FachadaRecetario):
         return receta.id
 
     def editar_receta(self, id_receta, receta, tiempo, personas, calorias, preparacion):
-        return None
+        try:
+            receta_db = session.query(Receta).get(id_receta)
+            receta_db.nombre = receta
+            receta_db.tiempo = tiempo
+            receta_db.personas = personas
+            receta_db.calorias = calorias
+            receta_db.preparacion = preparacion
+            session.commit()
+            return True
+        except Exception:
+            return False
 
     def eliminar_receta(self, id_receta):
         return None
@@ -142,8 +161,7 @@ class Logica(FachadaRecetario):
         ingrediente = Ingrediente(nombre=nombre,
                                   unidad=unidad,
                                   valor=int(valor),
-                                  sitioCompra=sitioCompra,
-                                  en_uso=False)
+                                  sitioCompra=sitioCompra)
         session.add(ingrediente)
         session.commit()
         return ingrediente.id
@@ -158,7 +176,20 @@ class Logica(FachadaRecetario):
         return ingrediente.id
 
     def eliminar_ingrediente(self, id_ingrediente):
-        return None
+        if id_ingrediente == "":
+            raise ValueError("El campo id de ingrediente no puede ser vacío")
+        try:
+            int(id_ingrediente)
+        except ValueError:
+            raise ValueError("El campo id de ingrediente debe ser un número")
+        ingrediente = session.query(Ingrediente).get(id_ingrediente)
+        if ingrediente is None:
+            raise ValueError("No existe un ingrediente con el id especificado")
+        busqueda = session.query(RecetaIngrediente).filter(RecetaIngrediente.ingrediente_id == id_ingrediente).all()
+        if len(busqueda) > 0:
+            raise ValueError("No se puede eliminar un ingrediente que esté asociado a una receta")
+        session.delete(ingrediente)
+        session.commit()
 
     def dar_ingredientes_receta(self, id_receta):
         ingredientes =  [elem.__dict__ for elem in session.query(RecetaIngrediente)
