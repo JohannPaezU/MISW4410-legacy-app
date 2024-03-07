@@ -63,6 +63,9 @@ class Logica(FachadaRecetario):
             int(id_receta)
         except ValueError:
             return "El id de la receta no puede ser un texto"
+        receta = session.query(Receta).get(id_receta)
+        if receta is None and id_receta != "0":
+            return "La receta que intenta editar no existe"
 
         return ""
 
