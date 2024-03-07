@@ -165,6 +165,9 @@ class Logica(FachadaRecetario):
         ingrediente = session.query(Ingrediente).get(id_ingrediente)
         if ingrediente is None:
             raise ValueError("No existe un ingrediente con el id especificado")
+        busqueda = session.query(RecetaIngrediente).filter(RecetaIngrediente.ingrediente_id == id_ingrediente).all()
+        if len(busqueda) > 0:
+            raise ValueError("No se puede eliminar un ingrediente que esté asociado a una receta")
         session.delete(ingrediente)
 
     def dar_ingredientes_receta(self, id_receta):
