@@ -298,3 +298,9 @@ class RecetaTestCase(unittest.TestCase):
         self.assertEqual(receta_guardada["calorias"], self.receta2.calorias)
         self.assertEqual(receta_guardada["preparacion"], self.receta2.preparacion)
         self.assertTrue(respuesta)
+
+    # Al preparar una receta con el campo " Número de personas" vacio, debe lanzar un mensaje de error.
+    def test_validar_preparar_receta_campo_personas_vacio(self):
+        with self.assertRaises(ValueError) as contexto:
+            self.logica.dar_preparacion(id_receta=1, cantidad_personas="")
+        self.assertEqual(str(contexto.exception), "La cantidad de personas no puede ser vacío")
