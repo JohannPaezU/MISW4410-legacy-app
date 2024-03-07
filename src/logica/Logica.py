@@ -83,7 +83,7 @@ class Logica(FachadaRecetario):
     def dar_ingrediente(self, id_ingrediente):
         return session.query(Ingrediente).get(id_ingrediente).__dict__
 
-    def validar_crear_editar_ingrediente(self, nombre, unidad, valor, sitioCompra):
+    def validar_crear_editar_ingrediente(self, id_ingrediente, nombre, unidad, valor, sitioCompra):
         if nombre == "":
             return "El nombre del ingrediente no puede ser vacío"
 
@@ -118,8 +118,23 @@ class Logica(FachadaRecetario):
 
         busqueda = session.query(Ingrediente).filter(Ingrediente.nombre == nombre)\
             .filter(Ingrediente.unidad == unidad).all()
-        if len(busqueda) > 0:
+        if len(busqueda) > 0 and id_ingrediente == "0":
             return "Ya existe un ingrediente con el mismo nombre y unidad de medida"
+
+        if id_ingrediente == "":
+            return "El valor del campo id ingrediente no puede ser vacío"
+
+        try:
+            int(id_ingrediente)
+        except ValueError:
+            return "El valor del campo id ingrediente no puede ser un texto"
+
+        if int(id_ingrediente) < 0:
+            return "El valor del campo id ingrediente no puede ser negativo"
+
+        ingrediente = session.query(Ingrediente).get(id_ingrediente)
+        if ingrediente is None and id_ingrediente != "0":
+            return "El ingrediente a editar no existe"
 
         return ""
 
@@ -134,7 +149,13 @@ class Logica(FachadaRecetario):
         return ingrediente.id
 
     def editar_ingrediente(self, id_ingrediente, nombre, unidad, valor, sitioCompras):
-        return None
+        ingrediente = session.query(Ingrediente).filter(Ingrediente.id == id_ingrediente).first()
+        # ingrediente.nombre = nombre
+        # ingrediente.unidad = unidad
+        ingrediente.valor = int(valor)
+        ingrediente.sitioCompra = sitioCompras
+        session.commit()
+        return ingrediente.id
 
     def eliminar_ingrediente(self, id_ingrediente):
         return None
@@ -160,9 +181,14 @@ class Logica(FachadaRecetario):
         return receta_ingrediente.id
 
     def editar_ingrediente_receta(self, id_ingrediente_receta, receta, ingrediente, cantidad):
-        return None
+        ingrediente_receta = session.query(RecetaIngrediente).filter(RecetaIngrediente.id == id_ingrediente_receta).first()
+        ingrediente_receta.receta_id = receta["id"]
+        ingrediente_receta.ingrediente_id = ingrediente["id"]
+        ingrediente_receta.cantidad = cantidad
+        session.commit()
+        return ingrediente_receta.id
 
-    def validar_crear_editar_ingReceta(self, receta, ingrediente, cantidad):
+    def validar_crear_editar_ingReceta(self, id_ingrediente_receta, receta, ingrediente, cantidad):
         if ingrediente is None:
             return "El campo ingrediente no puede ser vacío"
         if cantidad == "":
@@ -177,6 +203,27 @@ class Logica(FachadaRecetario):
             return "El campo cantidad no puede ser cero"
         if receta is None:
             return "El campo receta no puede ser vacío"
+
+        busqueda = session.query(RecetaIngrediente).filter(RecetaIngrediente.receta_id == receta["id"])\
+            .filter(RecetaIngrediente.ingrediente_id == ingrediente["id"]).all()
+        if len(busqueda) > 0 and id_ingrediente_receta == "0":
+            return "El ingrediente seleccionado ya existe en la receta"
+
+        if id_ingrediente_receta == "":
+            return "El campo id ingrediente receta no puede ser vacio"
+
+        try:
+            int(id_ingrediente_receta)
+        except ValueError:
+            return "El campo id ingrediente receta no puede ser un texto"
+
+        if int(id_ingrediente_receta) < 0:
+            return "El campo id ingrediente receta no puede ser negativo"
+
+        ingrediente_receta = session.query(RecetaIngrediente).get(id_ingrediente_receta)
+        if ingrediente_receta is None and id_ingrediente_receta != "0":
+            return "El ingrediente de receta a editar no existe"
+
         return ""
 
     def eliminar_ingrediente_receta(self, id_ingrediente_receta, receta):

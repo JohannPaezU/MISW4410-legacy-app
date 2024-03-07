@@ -84,7 +84,7 @@ class App_Recetario(QApplication):
         """
         Esta función permite crear un nuevo ingrediente
         """
-        validacion = self.logica.validar_crear_editar_ingrediente(nombre, unidad, valor, sitioCompra)
+        validacion = self.logica.validar_crear_editar_ingrediente("0", nombre, unidad, valor, sitioCompra)
         if validacion == "":
             self.logica.crear_ingrediente(nombre, unidad, valor, sitioCompra)
         else:
@@ -96,7 +96,7 @@ class App_Recetario(QApplication):
         """
         Esta función permite editar un ingrediente
         """
-        validacion = self.logica.validar_crear_editar_ingrediente(nombre, unidad, valor, sitioCompra)
+        validacion = self.logica.validar_crear_editar_ingrediente(id, nombre, unidad, valor, sitioCompra)
         if validacion == "":
             self.logica.editar_ingrediente(id, nombre, unidad, valor, sitioCompra)
         else:
@@ -115,7 +115,7 @@ class App_Recetario(QApplication):
         Esta función permite registrar un ingrediente a una receta especifica
         """
 
-        validacion = self.logica.validar_crear_editar_ingReceta(receta, ingrediente, cantidad)
+        validacion = self.logica.validar_crear_editar_ingReceta("0", receta, ingrediente, cantidad)
         if validacion == "":
             self.logica.agregar_ingrediente_receta(receta, ingrediente, cantidad)
         else:
@@ -127,7 +127,7 @@ class App_Recetario(QApplication):
         """
         Esta función permite registrar un ingrediente de una receta especifica
         """
-        validacion = self.logica.validar_crear_editar_ingReceta(receta, ingrediente, cantidad)
+        validacion = self.logica.validar_crear_editar_ingReceta(id_ingrediente_receta, receta, ingrediente, cantidad)
         if validacion == "":
             self.logica.editar_ingrediente_receta(id_ingrediente_receta,receta, ingrediente, cantidad)
         else:

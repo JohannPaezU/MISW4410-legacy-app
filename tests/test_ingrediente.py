@@ -29,7 +29,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "nombre" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_nombre_vacio(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre="",
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre="",
                                                                unidad=self.ingrediente.unidad,
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra=self.ingrediente.sitioCompra)
@@ -37,7 +38,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "nombre" mayor a 50 caracteres, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_nombre_con_longitud_invalida(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre="X" * 51,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre="X" * 51,
                                                                unidad=self.ingrediente.unidad,
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra=self.ingrediente.sitioCompra)
@@ -45,7 +47,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "unidad" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_unidad_vacio(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre=self.ingrediente.nombre,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre=self.ingrediente.nombre,
                                                                unidad="",
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra=self.ingrediente.sitioCompra)
@@ -53,7 +56,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "unidad" mayor a 20 caracteres, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_unidad_con_longitud_invalida(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre=self.ingrediente.nombre,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre=self.ingrediente.nombre,
                                                                unidad="X" * 21,
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra=self.ingrediente.sitioCompra)
@@ -61,7 +65,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "Valor por unidad" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_valor_por_unidad_vacio(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre=self.ingrediente.nombre,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre=self.ingrediente.nombre,
                                                                unidad=self.ingrediente.unidad,
                                                                valor="",
                                                                sitioCompra=self.ingrediente.sitioCompra)
@@ -69,7 +74,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "Valor por unidad" menor a cero, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_valor_por_unidad_negativo(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre=self.ingrediente.nombre,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre=self.ingrediente.nombre,
                                                                unidad=self.ingrediente.unidad,
                                                                valor=str(self.data_factory.random_int(-10, -1)),
                                                                sitioCompra=self.ingrediente.sitioCompra)
@@ -77,7 +83,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "Valor por unidad" igual a cero, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_valor_por_unidad_cero(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre=self.ingrediente.nombre,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre=self.ingrediente.nombre,
                                                                unidad=self.ingrediente.unidad,
                                                                valor="0",
                                                                sitioCompra=self.ingrediente.sitioCompra)
@@ -85,7 +92,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "Sitio de compra" vacio, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_sitio_compra_vacio(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre=self.ingrediente.nombre,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre=self.ingrediente.nombre,
                                                                unidad=self.ingrediente.unidad,
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra="")
@@ -93,7 +101,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "Sitio de compra" mayor a 100 caracteres, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_sitio_compra_con_longitud_invalida(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre=self.ingrediente.nombre,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre=self.ingrediente.nombre,
                                                                unidad=self.ingrediente.unidad,
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra="X" * 101)
@@ -103,7 +112,8 @@ class IngredienteTestCase(unittest.TestCase):
     def test_validar_crear_editar_ingrediente_ya_existente(self):
         self.logica.crear_ingrediente(self.ingrediente.nombre, self.ingrediente.unidad, str(self.ingrediente.valor),
                                       self.ingrediente.sitioCompra)
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre=self.ingrediente.nombre,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre=self.ingrediente.nombre,
                                                                unidad=self.ingrediente.unidad,
                                                                valor=str(self.ingrediente.valor),
                                                                sitioCompra=self.ingrediente.sitioCompra)
@@ -117,7 +127,8 @@ class IngredienteTestCase(unittest.TestCase):
 
     # Al crear un ingrediente con el campo "Valor por unidad" en texto, debe lanzar un mensaje de error.
     def test_validar_crear_editar_ingrediente_campo_valor_por_unidad_texto(self):
-        mensaje = self.logica.validar_crear_editar_ingrediente(nombre=self.ingrediente.nombre,
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="0",
+                                                               nombre=self.ingrediente.nombre,
                                                                unidad=self.ingrediente.unidad,
                                                                valor=self.data_factory.text(),
                                                                sitioCompra=self.ingrediente.sitioCompra)
@@ -135,3 +146,57 @@ class IngredienteTestCase(unittest.TestCase):
                                       self.ingrediente.sitioCompra)
         consulta2 = self.logica.dar_ingredientes()
         self.assertGreater(len(consulta2), len(consulta1))
+
+    # Al editar un ingrediente con el campo "id_ingrediente" vacio, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_ingrediente_campo_id_ingrediente_vacio(self):
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente="",
+                                                               nombre=self.ingrediente.nombre,
+                                                               unidad=self.ingrediente.unidad,
+                                                               valor=str(self.ingrediente.valor),
+                                                               sitioCompra=self.ingrediente.sitioCompra)
+        self.assertEqual(mensaje, "El valor del campo id ingrediente no puede ser vacío")
+
+    # Al editar un ingrediente con el campo "id_ingrediente" como texto, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_ingrediente_campo_id_ingrediente_texto(self):
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente=self.data_factory.text(),
+                                                               nombre=self.ingrediente.nombre,
+                                                               unidad=self.ingrediente.unidad,
+                                                               valor=str(self.ingrediente.valor),
+                                                               sitioCompra=self.ingrediente.sitioCompra)
+        self.assertEqual(mensaje, "El valor del campo id ingrediente no puede ser un texto")
+
+    # Al editar un ingrediente con el campo "id_ingrediente" negativo, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_ingrediente_campo_id_ingrediente_negativo(self):
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente=str(self.data_factory.random_int(-10, -1)),
+                                                               nombre=self.ingrediente.nombre,
+                                                               unidad=self.ingrediente.unidad,
+                                                               valor=str(self.ingrediente.valor),
+                                                               sitioCompra=self.ingrediente.sitioCompra)
+        self.assertEqual(mensaje, "El valor del campo id ingrediente no puede ser negativo")
+
+    # Al editar un ingrediente con el campo "id_ingrediente" negativo, debe lanzar un mensaje de error.
+    def test_validar_crear_editar_ingrediente_campo_id_ingrediente_inexistente(self):
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente=str(self.data_factory.random_int(1, 10)),
+                                                               nombre=self.ingrediente.nombre,
+                                                               unidad=self.ingrediente.unidad,
+                                                               valor=str(self.ingrediente.valor),
+                                                               sitioCompra=self.ingrediente.sitioCompra)
+        self.assertEqual(mensaje, "El ingrediente a editar no existe")
+
+    # Al editar un ingrediente que pase todas las validaciones, se debe actualizar en la base de datos.
+    def test_editar_ingrediente(self):
+        ingrediente_id = self.logica.crear_ingrediente(self.ingrediente.nombre, self.ingrediente.unidad,
+                                                       str(self.ingrediente.valor), self.ingrediente.sitioCompra)
+        mensaje = self.logica.validar_crear_editar_ingrediente(id_ingrediente=str(ingrediente_id),
+                                                               nombre=self.ingrediente.nombre,
+                                                               unidad=self.ingrediente.unidad,
+                                                               valor=str(self.ingrediente.valor),
+                                                               sitioCompra=self.ingrediente.sitioCompra)
+        ingrediente_edit_id = self.logica.editar_ingrediente(id_ingrediente=str(ingrediente_id),
+                                                             nombre=self.ingrediente.nombre,
+                                                             unidad=self.ingrediente.unidad,
+                                                             valor=str(self.ingrediente.valor),
+                                                             sitioCompras=self.ingrediente.sitioCompra)
+        self.assertTrue(ingrediente_id > 0)
+        self.assertEqual(mensaje, "")
+        self.assertTrue(ingrediente_edit_id > 0)
