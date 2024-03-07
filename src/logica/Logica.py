@@ -59,6 +59,10 @@ class Logica(FachadaRecetario):
             return "Ya existe una receta con el mismo nombre"
         if id_receta == "":
             return "El id de la receta no puede ser vacío"
+        try:
+            int(id_receta)
+        except ValueError:
+            return "El id de la receta no puede ser un texto"
 
         return ""
 
